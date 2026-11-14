@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mega Moto Trip Report — 10 Επιλογές με Χάρτες & Φωτογραφίες</title>
+  <style>
+    :root {
+      --bg: #0c0f14;
+      --card-bg: #151a23;
+      --card-border: #232b38;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.15);
+      --primary: #38bdf8;
+      --success: #10b981;
+      --danger: #f43f5e;
+      --warning: #fbbf24;
+      --radius: 14px;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      padding: 1.5rem 1rem 5rem;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #18202d 0%, #10141d 100%);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: clamp(1.2rem, 4vw, 2.5rem);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge-origin {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 5vw, 2.3rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.6rem;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* BIKES BANNER */
+    .bikes-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.1rem;
+    }
+
+    .bike-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .bike-icon {
+      font-size: 1.6rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.4rem 0.55rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .bike-info h4 {
+      font-size: 0.98rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .bike-info p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+      line-height: 1.45;
+    }
+
+    .constraints-bar {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .constraint-pill {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* NORDKAPP ALERT BOX */
+    .verdict-box {
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 1.5rem);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .verdict-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .verdict-content h3 {
+      color: #fda4af;
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .verdict-content p {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      margin-bottom: 0.4rem;
+      line-height: 1.5;
+    }
+
+    /* FILTERS - All visible, no slider, no carousel */
+    .filter-section {
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 0.5rem;
+      z-index: 100;
+      background: rgba(12, 15, 20, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 0.65rem 0.85rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.2;
+      cursor: pointer;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      /* Prevent text jitter */
+      transform: none !important;
+    }
+
+    .filter-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fff;
+      border-color: rgba(245, 158, 11, 0.4);
+      /* Strictly keep same font weight to prevent layout shift */
+      font-weight: 600;
+    }
+
+    
+    .btn-full { display: inline; }
+    .btn-compact { display: none; }
+    .filter-btn.active {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+    }
+
+    /* TRIP CARDS */
+    .trips-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+    }
+
+    .trip-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
+      padding: clamp(1rem, 3vw, 1.4rem);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .card-title-group {
+      max-width: 800px;
+    }
+
+    .trip-rank {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+
+    .trip-title {
+      font-size: clamp(1.25rem, 4vw, 1.55rem);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+      line-height: 1.3;
+    }
+
+    .trip-countries {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .card-score-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--success);
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 0.2rem;
+    }
+
+    /* KEY STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+      gap: 0.65rem;
+      padding: 0.85rem clamp(1rem, 3vw, 1.5rem);
+      background: rgba(0, 0, 0, 0.25);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.1rem;
+    }
+
+    .stat-val {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .col-highlight { color: var(--accent); }
+
+    /* CARD BODY */
+    .card-body {
+      padding: clamp(1rem, 3vw, 1.8rem);
+    }
+
+    .trip-summary {
+      font-size: 0.98rem;
+      color: #cbd5e1;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* MEDIA SECTION */
+    .media-section {
+      margin-bottom: 1.8rem;
+    }
+
+    .section-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      margin-bottom: 0.65rem;
+    }
+
+    .route-map-wrapper {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: #090c10;
+      margin-bottom: 1.3rem;
+      cursor: pointer;
+      max-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .route-map-img {
+      max-height: 480px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.25s;
+    }
+
+    .route-map-wrapper:hover {
+      border-color: #475569;
+    }
+    .route-map-wrapper:hover .route-map-img {
+      filter: brightness(1.03);
+    }
+
+    .map-badge-overlay {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(12, 15, 20, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+
+    /* PHOTO GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: #090c10;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .gallery-item:hover {
+      border-color: #475569;
+    }
+    .gallery-item:hover .gallery-img {
+      filter: brightness(1.06);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
+      color: #fff;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 0.65rem 0.5rem 0.35rem;
+      line-height: 1.25;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 4 QUADRANTS */
+    .quad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .quad-box {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .quad-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .quad-box.highlights .quad-title { color: var(--accent); }
+    .quad-box.pros .quad-title { color: var(--success); }
+    .quad-box.cons .quad-title { color: var(--danger); }
+    .quad-box.challenges .quad-title { color: var(--warning); }
+
+    .quad-list {
+      list-style: none;
+    }
+
+    .quad-list li {
+      position: relative;
+      padding-left: 1.25rem;
+      font-size: 0.86rem;
+      color: #cbd5e1;
+      margin-bottom: 0.45rem;
+      line-height: 1.45;
+    }
+
+    .quad-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .quad-box.highlights .quad-list li::before { content: "•"; position: absolute; left: 0.25rem; color: var(--accent); font-weight: 900; }
+    .quad-box.pros .quad-list li::before { content: "✓"; position: absolute; left: 0; color: var(--success); font-weight: 900; font-size: 0.8rem; }
+    .quad-box.cons .quad-list li::before { content: "✕"; position: absolute; left: 0; color: var(--danger); font-weight: 900; font-size: 0.8rem; }
+    .quad-box.challenges .quad-list li::before { content: "▲"; position: absolute; left: 0; color: var(--warning); font-size: 0.7rem; }
+
+    /* BIKE FIT BOX */
+    .bike-fit-box {
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 8px;
+      padding: 0.85rem 1.1rem;
+      font-size: 0.86rem;
+      color: #bae6fd;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .bike-fit-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* COMPARISON TABLE SECTION */
+    .table-section {
+      margin-top: 3rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 2rem);
+    }
+
+    .table-section h2 {
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .table-section p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .table-scroll-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.84rem;
+      min-width: 650px;
+    }
+
+    th, td {
+      padding: 0.75rem 0.85rem;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+
+    th {
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .col-score {
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    
+    /* YOUTUBE VIDEO BOX */
+    .youtube-box {
+      background: rgba(239, 68, 68, 0.07);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .youtube-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      max-width: 650px;
+    }
+
+    .youtube-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #ef4444;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .youtube-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .youtube-links-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .youtube-btn {
+      background: #ef4444;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .youtube-btn:hover {
+      background: #dc2626;
+    }
+
+    .youtube-btn.btn-alt {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+    }
+
+    .youtube-btn.btn-alt:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* LIGHTBOX MODAL & PINCH-ZOOM ENGINE */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 7, 10, 0.95);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-toolbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 58px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      z-index: 10;
+    }
+
+    .lightbox-hint {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .lightbox-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lb-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .lb-btn:active {
+      transform: scale(0.92);
+      background: var(--accent);
+      color: #000;
+    }
+
+    .lb-btn.lb-close {
+      background: rgba(244, 63, 94, 0.25);
+      border-color: rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+      margin-left: 0.3rem;
+    }
+
+    .lightbox-viewport {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .lightbox-viewport:active {
+      cursor: grabbing;
+    }
+
+    .lightbox-img {
+      max-width: 95vw;
+      max-height: 80vh;
+      border-radius: 6px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+      object-fit: contain;
+      transform-origin: center center;
+      will-change: transform;
+      pointer-events: auto;
+      transition: transform 0.05s ease-out;
+    }
+
+    .lightbox-img.animating {
+      transition: transform 0.25s ease-out;
+    }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 1.2rem 1rem 0.8rem;
+      pointer-events: none;
+    }
+
+    /* BACK TO TOP BUTTON */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 46px;
+      height: 46px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      font-weight: 900;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: #fbbf24;
+    }
+
+    /* RESPONSIVE BREAKPOINTS */
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 0.75rem 0.4rem 4rem; }
+      .container { width: 100%; }
+      header { border-radius: 10px; margin-bottom: 1.2rem; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .quad-grid { grid-template-columns: 1fr; }
+      .lightbox-hint { display: none; }
+      .route-map-wrapper { max-height: 360px; }
+      .route-map-img { max-height: 360px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+      .gallery-caption { font-size: 0.7rem; padding: 0.5rem 0.4rem 0.25rem; }
+
+      /* Ultra-Compact Sticky Navigation for Mobile */
+      .filter-section {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 0.35rem 0.45rem;
+        margin-bottom: 1rem;
+        border-radius: 0 0 10px 10px;
+        border-top: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      }
+      .filter-buttons {
+        gap: 0.3rem;
+        justify-content: center;
+      }
+      .filter-btn {
+        min-height: 28px;
+        padding: 0.22rem 0.5rem;
+        font-size: 0.72rem;
+        border-radius: 6px;
+      }
+      .btn-full { display: none !important; }
+      .btn-compact { display: inline !important; font-weight: 700; }
+    }
+  
+    /* EXPEDITION PREP & TOOLKIT CHECKLIST */
+    .checklist-section {
+      margin-top: 3rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 2rem);
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .checklist-title-group h2 {
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+
+    .checklist-title-group p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .progress-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 170px;
+    }
+
+    .progress-text {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--success);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .check-cat-card {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.1rem;
+    }
+
+    .check-cat-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.5rem;
+    }
+
+    .check-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .check-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      padding: 0.35rem 0.45rem;
+      border-radius: 6px;
+      transition: background 0.15s;
+      user-select: none;
+      min-height: 38px;
+    }
+
+    .check-label:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .check-label input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #4b5563;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: grid;
+      place-content: center;
+      transition: all 0.15s;
+    }
+
+    .check-label input[type="checkbox"]:checked {
+      background: var(--success);
+      border-color: var(--success);
+    }
+
+    .check-label input[type="checkbox"]:checked::before {
+      content: "✓";
+      color: #000;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .check-label.checked .check-text {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+
+    /* BORDER & PAPERWORK SECTION */
+    .border-section {
+      margin-top: 3rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 2rem);
+    }
+
+    .border-section h2 {
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .border-section p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .badge-id { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-pass { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-ok { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-warn { background: rgba(244, 63, 94, 0.15); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="badge-origin">📍 Αφετηρια: Θεσσαλονικη</div>
+      <h1>Mega Moto Trip Report</h1>
+      <p class="subtitle">Συγκριτική αξιολόγηση 10 μεγάλων μοτοσυκλετιστικών αποστολών. Σχεδιασμένο ειδικά για οδήγηση χωρίς cruise control, αποφυγή βαρετών ευρωπαϊκών εθνικών και μέγιστη απόλαυση σε στροφές, ορεινά περάσματα και μοναδικά τοπία.</p>
+      
+      <div class="bikes-banner">
+        <div class="bike-chip">
+          <div class="bike-icon">🏍️</div>
+          <div class="bike-info">
+            <h4>Honda Transalp 750 E-Clutch (2026)</h4>
+            <p>755cc Twin | 91 hp | <strong>Honda E-Clutch</strong> (αυτόματος ηλεκτρονικός συμπλέκτης, μηδέν κόπωση σε φουρκέτες/κίνηση) | 16.9L (~270km @ 6L) | 21" εμπρός</p>
+          </div>
+        </div>
+        <div class="bike-chip">
+          <div class="bike-icon">🏜️</div>
+          <div class="bike-info">
+            <h4>Honda Africa Twin 750 RD07A (1998)</h4>
+            <p>742cc V-Twin | ~60 hp | 21" σαμπρέλα | Καρμπυρατέρ | 23L (~370km αυτονομία @ 6L/100km) | Sweet spot: 100-115 km/h</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="constraints-bar">
+        <span class="constraint-pill">🚫 ΟΧΙ ατελείωτη εθνική</span>
+        <span class="constraint-pill">🚫 ΟΧΙ αυστηρά όρια/κάμερες</span>
+        <span class="constraint-pill">⛰️ 100% Ορεινά πάσα & στροφές</span>
+        <span class="constraint-pill">🧭 Νέα & εξωτικά τοπία</span>
+        <span class="constraint-pill">🔧 21" Dual-Sport έτοιμοι</span>
+        <span class="constraint-pill">⚡ Transalp E-Clutch (No-Stall / Zero Fatigue)</span>
+        <span class="constraint-pill">🗺️ Χάρτης & 4 Φωτογραφίες ανά ταξίδι</span>
+        <span class="constraint-pill">⛽ Κατανάλωση: ~6.0 L/100km (και οι 2)</span>
+      </div>
+    </header>
+
+    <!-- NORDKAPP ALERT BOX -->
+    <div class="verdict-box">
+      <div class="verdict-icon">⚠️</div>
+      <div class="verdict-content">
+        <h3>Το Crash Test του Nordkapp (Γιατί θέλει δεύτερη σκέψη)</h3>
+        <p><strong>11.000 km</strong> συνολικά, εκ των οποίων τα <strong>4.500+ km</strong> είναι επίπεδες, ευθείες εθνικές οδοί σε Κεντρική Ευρώπη, Πολωνία και σκανδιναβικές λεωφόρους με όρια 80–100 km/h και κάμερες μέσης ταχύτητας.</p>
+        <p><strong>Χωρίς cruise control</strong> στο Transalp και το Africa Twin, η μετάβαση μετατρέπεται σε επίπονη αγγαρεία για τον καρπό. Στη Νορβηγία τα όρια είναι 70–80 km/h με εξοντωτικά πρόστιμα, ενώ το κόστος ταξιδιού ξεπερνά τα €4.000/άτομο με συχνά βροχερό καιρό 6–12°C ακόμα και τον Ιούλιο.</p>
+      </div>
+    </div>
+
+    <!-- FILTER BUTTONS -->
+    <div class="filter-section">
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterTrips('all', this)"><span class="btn-full">Όλα τα Ταξίδια (12)</span><span class="btn-compact">Όλα (12)</span></button>
+        <button class="filter-btn" onclick="filterTrips('adventure', this)"><span class="btn-full">Ανατολή &amp; Έρημος</span><span class="btn-compact">Ανατολή</span></button>
+        <button class="filter-btn" onclick="filterTrips('mountain', this)"><span class="btn-full">Βουνά &amp; Στροφές</span><span class="btn-compact">Βουνά</span></button>
+        <button class="filter-btn" onclick="filterTrips('mediterranean', this)"><span class="btn-full">Μεσόγειος &amp; Νησιά</span><span class="btn-compact">Μεσόγειος</span></button>
+        <button class="filter-btn" onclick="filterTrips('nordkapp', this)"><span class="btn-full">Nordkapp</span><span class="btn-compact">Nordkapp</span></button>
+        <button class="filter-btn" onclick="filterTrips('dream', this)" style="color:var(--accent); border-color:rgba(245,158,11,0.5);"><span class="btn-full">⭐ Special Dream (Παραλιακός)</span><span class="btn-compact">⭐ Dream</span></button>
+        <button class="filter-btn" onclick="filterTrips('boss', this)" style="background:rgba(244,63,94,0.18); border-color:rgba(244,63,94,0.6); color:#fda4af;"><span class="btn-full">👹 BOSS LEVEL (360° Χερσαίος)</span><span class="btn-compact">👹 BOSS</span></button>
+      </div>
+      <div style="font-size:0.85rem; color:var(--text-muted);">
+        Ταξινομημένα κατά βαθμό οδηγικού ταιριάσματος
+      </div>
+    </div>
+
+    <!-- TRIPS GRID -->
+    <div class="trips-grid">
+
+      <!-- TRIP 1 -->
+      <article class="trip-card" data-category="adventure">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">👑 Επιλογη #1 — Κορυφαια Συσταση</div>
+            <h2 class="trip-title">Καύκασος & Ανατολία</h2>
+            <div class="trip-countries">Τουρκία • Γεωργία • Αρμενία</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">10/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">7.000 – 8.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">20 – 25 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 5% (Ελάχιστη)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.600 – €2.100 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Ιούν - Σεπ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Η απόλυτη μοτοσυκλετιστική αποστολή που ξεκινά μόλις 3.5 ώρες από τη Θεσσαλονίκη. Διασχίζει τα καταπράσινα Ποντιακά Όρη, ανεβαίνει στις 5.000m του Καυκάσου στο μυθικό Svaneti (Ushguli) και το Kazbegi, διασχίζει τα ηφαιστειακά υψίπεδα της Αρμενίας (Λίμνη Σεβάν, Tatev), αντικρίζει το όρος Αραράτ και ολοκληρώνεται στα σεληνιακά φαράγγια της Καππαδοκίας.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_1.jpg', 'Χάρτης Διαδρομής: Καύκασος & Ανατολία (~7.000 – 8.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_1.jpg" alt="Χάρτης Διαδρομής: Καύκασος & Ανατολία (~7.000 – 8.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_1_img_1.jpg', 'Ushguli & Svaneti (2.100m, Γεωργία)')">
+            <img class="gallery-img" src="images/trip_1_img_1.jpg" alt="Ushguli & Svaneti (2.100m, Γεωργία)" loading="eager">
+            <div class="gallery-caption">Ushguli & Svaneti (2.100m, Γεωργία)</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_1_img_2.jpg', 'Στρατιωτική Οδός Καυκάσου & Gergeti (Γεωργία)')">
+            <img class="gallery-img" src="images/trip_1_img_2.jpg" alt="Στρατιωτική Οδός Καυκάσου & Gergeti (Γεωργία)" loading="eager">
+            <div class="gallery-caption">Στρατιωτική Οδός Καυκάσου & Gergeti (Γεωργία)</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_1_img_3.jpg', 'Λίμνη Σεβάν & Sevanavank (Αρμενία)')">
+            <img class="gallery-img" src="images/trip_1_img_3.jpg" alt="Λίμνη Σεβάν & Sevanavank (Αρμενία)" loading="eager">
+            <div class="gallery-caption">Λίμνη Σεβάν & Sevanavank (Αρμενία)</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_1_img_4.jpg', 'Καππαδοκία & Göreme (Τουρκία)')">
+            <img class="gallery-img" src="images/trip_1_img_4.jpg" alt="Καππαδοκία & Göreme (Τουρκία)" loading="eager">
+            <div class="gallery-caption">Καππαδοκία & Göreme (Τουρκία)</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (English / Africa Twin)</span>
+              <span class="youtube-title">With the Africa Twin in the Caucasus || Ushguli & Zagari Pass (Georgia)</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=l5_fcu7uOLQ" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/watch?v=jyFe_SRrjc4" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Moto-Trip: Καύκασος, Γεωργία & Αρμενία [Ελληνικά]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Ushguli & Svaneti: Το ψηλότερο μόνιμο χωριό της Ευρώπης κάτω από παγετώνες 5.000m.</li><li>Στρατιωτική Οδός Καυκάσου & Μοναστήρι Gergeti στο Kazbegi.</li><li>Το επιβλητικό Όρος Αραράτ (5.137m) και το Παλάτι Ισχάκ Πασά.</li><li>Καππαδοκία: Σεληνιακά τοπία, υπόγειες πολιτείες και πτήσεις αεροστάτων.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>0% χαμένα χιλιόμετρα: Περιπέτεια από την πρώτη κιόλας ημέρα στα σύνορα των Κήπων.</li><li>Απίστευτη εναλλαγή τοπίων: Πράσινος Πόντος, άγριες κορυφές, ηφαίστεια, στέπες.</li><li>Χαλαρή οδική κουλτούρα, μηδέν άγχος για κάμερες και αυστηρά όρια.</li><li>Πολύ χαμηλό κόστος διαμονής και φαγητού, ελεύθερη είσοδος χωρίς βίζα.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Συνοριακές διατυπώσεις (μπορεί να πάρουν 1–2 ώρες στα σύνορα Τουρκίας-Γεωργίας).</li><li>Απαιτεί πράσινη κάρτα ασφάλισης (στη Γεωργία/Αρμενία αγοράζεται τοπικά στα σύνορα).</li><li>Απαιτείται στοιχειώδης προσοχή στην οδηγική συμπεριφορά των ντόπιων στις πόλεις.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Ορεινά περάσματα άνω των 2.500m με απότομες καιρικές αλλαγές (ομίχλη, καταιγίδες).</li><li>Βατά χωμάτινα κομμάτια προς Ushguli που θέλουν προσοχή αν βρέξει (λάσπη).</li><li>Αδέσποτα ζώα (αγελάδες, άλογα) που ξαπλώνουν πάνω στην άσφαλτο στις ορεινές στροφές.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> Απόλυτο 10/10. Οι 21" τροχοί «ισιώνουν» τις λακκούβες και τα χωμάτινα περάσματα. Οι ταχύτητες 60–100 km/h κρατούν το RD07A ξεκούραστο, ενώ το Transalp απολαμβάνει τα στριφτερά ορεινά πάσα.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 2 -->
+      <article class="trip-card" data-category="adventure">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">📍 Επιλογη #2 — Ανατολικη Μαγεια</div>
+            <h2 class="trip-title">Ανατολική Ανατολία & Άνω Μεσοποταμία</h2>
+            <div class="trip-countries">Τουρκία (Ευφράτης, Nemrut, Mardin, Göbekli Tepe, Βαν)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">10/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">5.500 – 6.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">15 – 18 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 8%</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.050 – €1.500 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Ιούν / Σεπ - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Ένα ταξίδι στα βάθη της ιστορίας και των άγριων φαραγγιών. Διασχίζετε την Τουρκία προς το φαράγγι του Ευφράτη και τον τρομερό λαξευτό πέτρινο δρόμο Taş Yolu, ανεβαίνετε στο ιερό όρος Nemrut με τα κολοσσιαία κεφάλια των θεών, αντικρίζετε από το Mardin την απεραντοσύνη της Μεσοποταμίας και επιστρέφετε μέσω των Ορέων του Ταύρου.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_2.jpg', 'Χάρτης Διαδρομής: Ανατολική Ανατολία & Άνω Μεσοποταμία (~5.500 – 6.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_2.jpg" alt="Χάρτης Διαδρομής: Ανατολική Ανατολία & Άνω Μεσοποταμία (~5.500 – 6.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_2_img_1.jpg', 'Πέτρινος Δρόμος Taş Yolu, Ευφράτης')">
+            <img class="gallery-img" src="images/trip_2_img_1.jpg" alt="Πέτρινος Δρόμος Taş Yolu, Ευφράτης" loading="eager">
+            <div class="gallery-caption">Πέτρινος Δρόμος Taş Yolu, Ευφράτης</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_2_img_2.jpg', 'Κολοσσιαία Κεφάλια στο Όρος Nemrut')">
+            <img class="gallery-img" src="images/trip_2_img_2.jpg" alt="Κολοσσιαία Κεφάλια στο Όρος Nemrut" loading="eager">
+            <div class="gallery-caption">Κολοσσιαία Κεφάλια στο Όρος Nemrut</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_2_img_3.jpg', 'Mardin & Θέα στη Μεσοποταμία')">
+            <img class="gallery-img" src="images/trip_2_img_3.jpg" alt="Mardin & Θέα στη Μεσοποταμία" loading="eager">
+            <div class="gallery-caption">Mardin & Θέα στη Μεσοποταμία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_2_img_4.jpg', 'Ο Αρχαιότερος Ναός Göbekli Tepe')">
+            <img class="gallery-img" src="images/trip_2_img_4.jpg" alt="Ο Αρχαιότερος Ναός Göbekli Tepe" loading="eager">
+            <div class="gallery-caption">Ο Αρχαιότερος Ναός Göbekli Tepe</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Adventure Ride)</span>
+              <span class="youtube-title">Kemaliye Karanlık Kanyon Taş Yolu — Motosikletle Geçiş (Ευφράτης)</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/results?search_query=Kemaliye+Karanlik+Kanyon+Tas+Yolu+motosiklet" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Mount+Nemrut+Mardin+motorcycle+trip" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Ανατολική Ανατολία, Nemrut & Mardin [ADV Ride]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Kemaliye Taş Yolu: Ο θρυλικός πέτρινος δρόμος με τις 38 λαξευμένες στο χέρι σήραγγες πάνω από τον Ευφράτη.</li><li>Όρος Nemrut (2.150m): Ηλιοβασίλεμα δίπλα στα κολοσσιαία αγάλματα του Αντιόχου.</li><li>Mardin: Η πετρόχτιστη πολιτεία που κρέμεται πάνω από τις πεδιάδες της αρχαίας Μεσοποταμίας.</li><li>Göbekli Tepe: Ο παλαιότερος ναός στην ιστορία της ανθρωπότητας (11.500 ετών).</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Μία μόνο χώρα: Μηδέν συνοριακές καθυστερήσεις μετά τους Κήπους, μόνο με ελληνική ταυτότητα.</li><li>Άδειοι, φαρδείς επαρχιακοί δρόμοι με εξαιρετική άσφαλτο και απίστευτες καμπές.</li><li>Απαράμιλλη ανατολίτικη φιλοξενία, παγκοσμίου κλάσης κουζίνα (κεμπάπ, μπακλαβάς Gaziantep).</li><li>Εξαιρετικά οικονομική διαμονή και βενζίνη.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Πολύ υψηλές θερμοκρασίες τον Ιούλιο και τον Αύγουστο (καλύτερα άνοιξη ή αρχές φθινοπώρου).</li><li>Μεγάλες αποστάσεις ανάμεσα στις μεγάλες πόλεις της ανατολικής στέπας.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Οδήγηση μέσα στον πέτρινο δρόμο Kemaliye (στενός δρόμος χωρίς μπαριέρες, με γκρεμό).</li><li>Συχνά μπλόκα ασφαλείας της τοπικής χωροφυλακής (Jandarma) — απόλυτα φιλικοί αλλά θέλουν διαβατήρια/ταυτότητες.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 10/10. Ιδανικό για το ρεζερβουάρ 23L του Africa Twin και την ταξιδιωτική άνεση του Transalp. Οι ρυθμοί 80–110 km/h στους ανοιχτούς δρόμους της Ανατολίας είναι απόλαυση.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 3 -->
+      <article class="trip-card" data-category="mountain">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">⛰️ Επιλογη #3 — Αλπικα Στροφιλικια</div>
+            <h2 class="trip-title">Άγρια Βαλκάνια & Καρπάθια</h2>
+            <div class="trip-countries">Αλβανία • Μαυροβούνιο • Βοσνία • Ρουμανία</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">10/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">5.000 – 6.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">14 – 18 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">~ 0% (Μηδενική)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Άχρηστο</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.200 – €1.700 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Ιούν - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Ο απόλυτος παράδεισος για όποιον θέλει να στρίβει ασταμάτητα επί δύο εβδομάδες. Ξεκινά με τα φοβερά πάσα της Βόρειας Αλβανίας (SH20, Theth), περνά στο φαράγγι Tara και το Sedlo Pass του Durmitor στο Μαυροβούνιο, διασχίζει τη Βοσνία και καταλήγει στα θρυλικά ρουμανικά πάσα των Καρπαθίων: Transfăgărășan και Transalpina.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_3.jpg', 'Χάρτης Διαδρομής: Άγρια Βαλκάνια & Καρπάθια (~5.000 – 6.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_3.jpg" alt="Χάρτης Διαδρομής: Άγρια Βαλκάνια & Καρπάθια (~5.000 – 6.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_3_img_1.jpg', 'Transfăgărășan DN7C, Ρουμανία')">
+            <img class="gallery-img" src="images/trip_3_img_1.jpg" alt="Transfăgărășan DN7C, Ρουμανία" loading="eager">
+            <div class="gallery-caption">Transfăgărășan DN7C, Ρουμανία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_3_img_2.jpg', 'Transalpina DN67C (2.145m), Ρουμανία')">
+            <img class="gallery-img" src="images/trip_3_img_2.jpg" alt="Transalpina DN67C (2.145m), Ρουμανία" loading="eager">
+            <div class="gallery-caption">Transalpina DN67C (2.145m), Ρουμανία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_3_img_3.jpg', 'Εθνικό Πάρκο Durmitor, Μαυροβούνιο')">
+            <img class="gallery-img" src="images/trip_3_img_3.jpg" alt="Εθνικό Πάρκο Durmitor, Μαυροβούνιο" loading="eager">
+            <div class="gallery-caption">Εθνικό Πάρκο Durmitor, Μαυροβούνιο</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_3_img_4.jpg', 'SH20 Kelmend Pass, Αλβανία')">
+            <img class="gallery-img" src="images/trip_3_img_4.jpg" alt="SH20 Kelmend Pass, Αλβανία" loading="eager">
+            <div class="gallery-caption">SH20 Kelmend Pass, Αλβανία</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Greek / ADV Tour)</span>
+              <span class="youtube-title">Transfăgărășan & Transalpina: Οι θρυλικοί δρόμοι των Καρπαθίων</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/results?search_query=Transfagarasan+Transalpina+ταξιδι+με+μηχανη" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/watch?v=RToNxflPWDU" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Transfăgărășan & Transalpina Motorcycle Adventure [English]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Transfăgărășan (DN7C) & Transalpina (DN67C): Οι δύο διασημότεροι μοτο-δρόμοι της Ανατολικής Ευρώπης.</li><li>SH20 Αλβανίας: Ατελείωτες ασφάλτινες φουρκέτες με θέα τις «Καταραμένες Κορυφές». </li><li>Durmitor & Φαράγγι Tara: Το βαθύτερο φαράγγι της Ευρώπης μέσα σε καταπράσινα αλπικά λιβάδια.</li><li>Παρθένα δάση των Καρπαθίων με συχνές συναντήσεις με καφέ αρκούδες στην άκρη του δρόμου.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Κυριολεκτικά μηδέν ευθείες: Από τη στιγμή που ξεκινάτε, στρίβετε συνεχώς.</li><li>Ταχύτητες ταξιδιού 50–90 km/h: Το τέλειο περιβάλλον για το Africa Twin '98.</li><li>Πολύ χαμηλό κόστος διαμονής, φαγητού και καυσίμων σε όλες τις χώρες.</li><li>Ευκολία logistics: Πολύ κοντά στην Ελλάδα, άμεση επιστροφή αν χρειαστεί.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Τα υψηλά περάσματα (Transfăgărășan) ανοίγουν συνήθως μετά τα μέσα Ιουνίου λόγω χιονιού.</li><li>Αυξημένη τουριστική κίνηση τα Σαββατοκύριακα του Ιουλίου/Αυγούστου στα ρουμανικά πάσα.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Προσοχή στις καφέ αρκούδες στο Transfăgărășan (ποτέ στάση δίπλα τους με μηχανή).</li><li>Συχνές απογευματινές καλοκαιρινές μπόρες στα ψηλά βουνά των Καρπαθίων.</li><li>Κατά τόπους κακής ποιότητας άσφαλτος ή χαλίκι στις επαρχίες της Αλβανίας και Βοσνίας.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 10/10. Σταθερός ρυθμός στροφών, μηδενική κούραση από ευθείες, αναρτήσεις και τροχοί που καταπίνουν τις ατέλειες του οδοστρώματος.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 4 -->
+      <article class="trip-card" data-category="mountain">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🌊 Επιλογη #4 — Σμαραγδενια Φαραγγια</div>
+            <h2 class="trip-title">Trans-Dinaric & Σλοβενικές Άλπεις</h2>
+            <div class="trip-countries">Βόρεια Μακεδονία • Κόσοβο • Μαυροβούνιο • Βοσνία • Σλοβενία</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">10/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">4.500 – 5.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">14 – 17 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 3%</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.250 – €1.800 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Μια διαδρομή αφιερωμένη στα πιο καθαρά ποτάμια και φαράγγια της Ευρώπης. Από το φαράγγι Rugova του Κοσόβου και τη γαλαζοπράσινη λίμνη Piva του Μαυροβουνίου, περνάτε στους καταρράκτες του ποταμού Una στη Βοσνία και ανεβαίνετε στις Ιουλιανές Άλπεις της Σλοβενίας: την κοιλάδα Soča, το ιστορικό Vršič Pass με τις 50 καλντεριμένιες φουρκέτες και το Mangart Saddle στα 2.055m.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_4.jpg', 'Χάρτης Διαδρομής: Trans-Dinaric & Σλοβενικές Άλπεις (~4.500 – 5.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_4.jpg" alt="Χάρτης Διαδρομής: Trans-Dinaric & Σλοβενικές Άλπεις (~4.500 – 5.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_4_img_1.jpg', 'Vršič Pass (50 φουρκέτες), Σλοβενία')">
+            <img class="gallery-img" src="images/trip_4_img_1.jpg" alt="Vršič Pass (50 φουρκέτες), Σλοβενία" loading="eager">
+            <div class="gallery-caption">Vršič Pass (50 φουρκέτες), Σλοβενία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_4_img_2.jpg', 'Σμαραγδένιος Ποταμός Soča, Σλοβενία')">
+            <img class="gallery-img" src="images/trip_4_img_2.jpg" alt="Σμαραγδένιος Ποταμός Soča, Σλοβενία" loading="eager">
+            <div class="gallery-caption">Σμαραγδένιος Ποταμός Soča, Σλοβενία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_4_img_3.jpg', 'Φαράγγι & Λίμνη Piva, Μαυροβούνιο')">
+            <img class="gallery-img" src="images/trip_4_img_3.jpg" alt="Φαράγγι & Λίμνη Piva, Μαυροβούνιο" loading="eager">
+            <div class="gallery-caption">Φαράγγι & Λίμνη Piva, Μαυροβούνιο</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_4_img_4.jpg', 'Φαράγγι Rugova, Κόσοβο')">
+            <img class="gallery-img" src="images/trip_4_img_4.jpg" alt="Φαράγγι Rugova, Κόσοβο" loading="eager">
+            <div class="gallery-caption">Φαράγγι Rugova, Κόσοβο</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Slovenia Moto Tour)</span>
+              <span class="youtube-title">Vršič Pass (50 φουρκέτες) & Κοιλάδα Soča — Σλοβενικές Άλπεις</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/results?search_query=Vrsic+pass+Soca+valley+motorcycle" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Piva+canyon+Durmitor+motorcycle" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Φαράγγι Piva & Durmitor με μηχανή [Βαλκάνια]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Vršič Pass: 50 αριθμημένες φουρκέτες που κατασκεύασαν Ρώσοι αιχμάλωτοι το 1915.</li><li>Mangart Saddle: Ο ψηλότερος ασφάλτινος δρόμος της Σλοβενίας με πανοραμική θέα στις Άλπεις.</li><li>Κοιλάδα ποταμού Soča: Τα διασημότερα σμαραγδένια νερά της Ευρώπης.</li><li>Φαράγγι Piva: Στενές σήραγγες λαξευμένες στο βράχο πάνω από τη γαλαζοπράσινη λίμνη.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Κορυφαία ποιότητα ασφάλτου στη Σλοβενία, ιδανική για στρίψιμο με ασφάλεια.</li><li>Μαγευτικά φυσικά τοπία με έντονη παρουσία νερού (λίμνες, καταρράκτες, ποτάμια).</li><li>Αποφυγή της υπερβολικής κίνησης της κροατικής ακτής επιλέγοντας την ορεινή ενδοχώρα.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Η Σλοβενία είναι πιο ακριβή από τα υπόλοιπα Βαλκάνια (τιμές Κεντρικής Ευρώπης).</li><li>Αυστηρότερη τροχαία αστυνόμευση μόλις μπείτε στη Σλοβενία.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Οι βόρειες φουρκέτες του Vršič Pass έχουν παλιό καλντερίμι που γλιστράει πολύ στο βρεγμένο.</li><li>Πολλαπλοί συνοριακοί έλεγχοι εκτός Σένγκεν στα δυτικά Βαλκάνια.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 10/10. Απόλυτα ισορροπημένο ταξίδι. Οι σφιχτές στροφές αναδεικνύουν την ευελιξία του Transalp και τη σταθερότητα του Africa Twin.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 5 -->
+      <article class="trip-card" data-category="adventure">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🏜️ Επιλογη #5 — Εξωτικη Αφρικη</div>
+            <h2 class="trip-title">Μαρόκο & Οροσειρά Άτλαντα</h2>
+            <div class="trip-countries">Ελλάδα • Ιταλία • Μαρόκο (μέσω Ferry)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">9.5/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">5.500 – 7.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">18 – 22 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 10% (λόγω Ferry)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.850 – €2.600 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Οκτ - Νοε / Μαρ - Μαι</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Η πιο ριζική αλλαγή παραστάσεων και πολιτισμού. Με ferry από Ηγουμενίτσα για Ιταλία και από εκεί κατευθείαν για Ταγγέρη, μπαίνετε στον κόσμο της Αφρικής. Διασχίζετε τα δάση κέδρων του Μέσου Άτλαντα, κατακτάτε το πάσο Tizi n'Tichka στα 2.260m, στρίβετε στα κόκκινα φαράγγια Todra και Dades και κοιμάστε κάτω από τα αστέρια στους αμμόλοφους της Σαχάρας στο Erg Chebbi.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_5.jpg', 'Χάρτης Διαδρομής: Μαρόκο & Οροσειρά Άτλαντα (~5.500 – 7.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_5.jpg" alt="Χάρτης Διαδρομής: Μαρόκο & Οροσειρά Άτλαντα (~5.500 – 7.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_5_img_1.jpg', 'Φαράγγι Dades & Φουρκέτες, Μαρόκο')">
+            <img class="gallery-img" src="images/trip_5_img_1.jpg" alt="Φαράγγι Dades & Φουρκέτες, Μαρόκο" loading="eager">
+            <div class="gallery-caption">Φαράγγι Dades & Φουρκέτες, Μαρόκο</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_5_img_2.jpg', 'Αμμόλοφοι Erg Chebbi, Σαχάρα')">
+            <img class="gallery-img" src="images/trip_5_img_2.jpg" alt="Αμμόλοφοι Erg Chebbi, Σαχάρα" loading="eager">
+            <div class="gallery-caption">Αμμόλοφοι Erg Chebbi, Σαχάρα</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_5_img_3.jpg', 'Πέρασμα Tizi n'Tichka (2.260m)')">
+            <img class="gallery-img" src="images/trip_5_img_3.jpg" alt="Πέρασμα Tizi n'Tichka (2.260m)" loading="eager">
+            <div class="gallery-caption">Πέρασμα Tizi n'Tichka (2.260m)</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_5_img_4.jpg', 'Chefchaouen, η Μπλε Πόλη')">
+            <img class="gallery-img" src="images/trip_5_img_4.jpg" alt="Chefchaouen, η Μπλε Πόλη" loading="eager">
+            <div class="gallery-caption">Chefchaouen, η Μπλε Πόλη</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Official Honda Africa Twin / English)</span>
+              <span class="youtube-title">Honda Adventure Roads: Morocco — 30 Africa Twins στον Άτλαντα & Σαχάρα</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=Jibnhk2jDmI" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/watch?v=roYodA6q1Zc" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Moto Camping in the Moroccan Desert & Dades Gorges">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Merzouga & Erg Chebbi: Οδήγηση μέχρι την άκρη των χρυσών αμμόλοφων της Σαχάρας.</li><li>Φαράγγια Dades & Todra: Κάθετα κόκκινα βράχια 300m με φαντασμαγορικές φουρκέτες.</li><li>Tizi n'Tichka (2.260m): Το ψηλότερο ασφάλτινο πάσο της Βόρειας Αφρικής.</li><li>Chefchaouen (η μπλε πόλη) και Aït Benhaddou (η διάσημη πλίνθινη καστροπολιτεία).</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Η μεγαλύτερη αλλαγή κουλτούρας και τοπίων σε προσιτή απόσταση.</li><li>Εξαιρετικοί νέοι ασφάλτινοι δρόμοι στα βουνά με απίστευτο κράτημα.</li><li>Απεριόριστες δυνατότητες για ασφαλές, βατό χώμα για όποιον το επιθυμεί.</li><li>Πολύ οικονομική ζωή στο Μαρόκο (ξενοδοχεία, riad, παραδοσιακό φαγητό).</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Κόστος και χρόνος στα ferries (2 μέρες στη θάλασσα για τη μετάβαση).</li><li>Ακατάλληλο για κατακαλόκαιρο λόγω ακραίας ζέστης στην έρημο (πάνω από 45°C).</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Άμμος και πέτρες στην άσφαλτο σε σημεία που φυσάει δυνατά στην έρημο.</li><li>Επίμονοι ντόπιοι «ξεναγοί» σε τουριστικά σημεία και πόλεις.</li><li>Προσοχή στο νερό και τη διατροφή για αποφυγή στομαχικών διαταραχών.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 9.5/10. Το Africa Twin επιστρέφει στην πνευματική του πατρίδα (Dakar DNA). Τα 21" στεφάνια είναι στο φυσικό τους περιβάλλον.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 6 -->
+      <article class="trip-card" data-category="mediterranean">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🏝️ Επιλογη #6 — 10.000 Στροφες</div>
+            <h2 class="trip-title">Τα Μεγάλα Νησιά της Μεσογείου</h2>
+            <div class="trip-countries">Σικελία • Σαρδηνία • Κορσική</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">9.5/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">4.500 – 5.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">16 – 20 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">~ 0% (Μηδενική)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Άχρηστο</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€2.100 – €2.900 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Ιούν / Σεπ - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Το απόλυτο νησιωτικό hop-on hop-off με επίκεντρο το αδιάκοπο στρίψιμο. Ξεκινάτε από την ενεργό μαύρη λάβα της Αίτνας στη Σικελία, περνάτε στη Σαρδηνία για να οδηγήσετε τον θρυλικό SS125 Orientale Sarda (τον δρόμο με την κορυφαία ροή στροφών στον κόσμο) και καταλήγετε στην Κορσική, το περίφημο «νησί των 10.000 στροφών» με τα γρανιτένια βουνά και τα τιρκουάζ νερά.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_6.jpg', 'Χάρτης Διαδρομής: Τα Μεγάλα Νησιά της Μεσογείου (~4.500 – 5.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_6.jpg" alt="Χάρτης Διαδρομής: Τα Μεγάλα Νησιά της Μεσογείου (~4.500 – 5.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_6_img_1.jpg', 'Ηφαίστειο Αίτνας & Λάβα, Σικελία')">
+            <img class="gallery-img" src="images/trip_6_img_1.jpg" alt="Ηφαίστειο Αίτνας & Λάβα, Σικελία" loading="eager">
+            <div class="gallery-caption">Ηφαίστειο Αίτνας & Λάβα, Σικελία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_6_img_2.jpg', 'SS125 Orientale Sarda, Σαρδηνία')">
+            <img class="gallery-img" src="images/trip_6_img_2.jpg" alt="SS125 Orientale Sarda, Σαρδηνία" loading="eager">
+            <div class="gallery-caption">SS125 Orientale Sarda, Σαρδηνία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_6_img_3.jpg', 'Calanques de Piana, Κορσική')">
+            <img class="gallery-img" src="images/trip_6_img_3.jpg" alt="Calanques de Piana, Κορσική" loading="eager">
+            <div class="gallery-caption">Calanques de Piana, Κορσική</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_6_img_4.jpg', 'Λευκοί Γκρεμοί του Bonifacio, Κορσική')">
+            <img class="gallery-img" src="images/trip_6_img_4.jpg" alt="Λευκοί Γκρεμοί του Bonifacio, Κορσική" loading="eager">
+            <div class="gallery-caption">Λευκοί Γκρεμοί του Bonifacio, Κορσική</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Italian / English Sub)</span>
+              <span class="youtube-title">Top Strade in Moto: Orientale Sarda SS125 (Σαρδηνία) & Corsica 10.000 Στροφές</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=PXxAg2iL0ks" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/watch?v=i_E8SyWpA7I" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Corsica in Moto: Bonifacio & Mountain Passes">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>SS125 Orientale Sarda (Σαρδηνία): Ο απόλυτος δρόμος παγκοσμίως για συνεχή κλίση και ρυθμό.</li><li>Ηφαίστειο Αίτνας (Σικελία): Ανάβαση με τη μηχανή ανάμεσα σε κρατήρες και μαύρα πεδία λάβας.</li><li>Calanques de Piana & Cap Corse (Κορσική): Κόκκινοι γρανιτένιοι γκρεμοί πάνω από τη θάλασσα.</li><li>Col de Bavella: Αλπικά περάσματα μέσα σε δάση μαύρης πεύκης με θέα το πέλαγος.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>100% καθαρή μοτοσυκλετιστική απόλαυση: Κανένας βαρετός δρόμος, καμία ευθεία.</li><li>Κορυφαία άσφαλτος στη Σαρδηνία (τρώει λάστιχα από το υπερβολικό κράτημα).</li><li>Συνδυασμός άγριου βουνού με στάσεις για μπάνιο σε μερικές από τις καλύτερες παραλίες της Μεσογείου.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Απαιτεί πολλαπλά ακτοπλοϊκά εισιτήρια (Ηγουμενίτσα-Μπάρι, Σικελία-Σαρδηνία, Σαρδηνία-Κορσική, Κορσική-Ιταλία).</li><li>Πολύ υψηλές τιμές και συνωστισμός αν πάτε Ιούλιο ή Αύγουστο.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Σωματική κόπωση από το συνεχές στρίψιμο (στην Κορσική δύσκολα κάνεις πάνω από 200 km τη μέρα).</li><li>Στενοί δρόμοι στην Κορσική με τουριστικά λεωφορεία και κατσίκια πίσω από τυφλές στροφές.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 9.5/10. Στην Κορσική το ελαφρύ πάτημα και η ευελιξία του Transalp λάμπουν, ενώ το Africa Twin χαρίζει αστείρευτη άνεση στο στροφιλίκι.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 7 -->
+      <article class="trip-card" data-category="mountain">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🏔️ Επιλογη #7 — Αλπικοι Θρυλοι</div>
+            <h2 class="trip-title">Δολομίτες, Ιταλικές Άλπεις & Απέννινα</h2>
+            <div class="trip-countries">Ιταλία (μέσω Ferry Ηγουμενίτσα – Ανκόνα)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">9/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">4.500 – 5.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">12 – 16 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 5% (Ferry transit)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.850 – €2.600 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Τέλη Ιουν - Σεπ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Ο τρόπος να ζήσετε τα κορυφαία αλπικά περάσματα του κόσμου χωρίς να φάτε τη ζωή σας στις ευρωπαϊκές εθνικές. Το ferry από Ηγουμενίτσα σας αφήνει ξεκούραστους στην Ανκόνα. Από εκεί ανεβαίνετε κατευθείαν στους Δολομίτες (Sella Ronda, Giau), κατακτάτε το Passo dello Stelvio (2.757m) και το άγριο Passo Gavia, και επιστρέφετε μέσω του απέραντου οροπεδίου Campo Imperatore (το «Μικρό Θιβέτ») στα Απέννινα.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_7.jpg', 'Χάρτης Διαδρομής: Δολομίτες, Ιταλικές Άλπεις & Απέννινα (~4.500 – 5.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_7.jpg" alt="Χάρτης Διαδρομής: Δολομίτες, Ιταλικές Άλπεις & Απέννινα (~4.500 – 5.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_7_img_1.jpg', 'Passo dello Stelvio (2.757m), Ιταλία')">
+            <img class="gallery-img" src="images/trip_7_img_1.jpg" alt="Passo dello Stelvio (2.757m), Ιταλία" loading="eager">
+            <div class="gallery-caption">Passo dello Stelvio (2.757m), Ιταλία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_7_img_2.jpg', 'Passo Giau, Δολομίτες')">
+            <img class="gallery-img" src="images/trip_7_img_2.jpg" alt="Passo Giau, Δολομίτες" loading="eager">
+            <div class="gallery-caption">Passo Giau, Δολομίτες</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_7_img_3.jpg', 'Passo Gavia, Ιταλικές Άλπεις')">
+            <img class="gallery-img" src="images/trip_7_img_3.jpg" alt="Passo Gavia, Ιταλικές Άλπεις" loading="eager">
+            <div class="gallery-caption">Passo Gavia, Ιταλικές Άλπεις</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_7_img_4.jpg', 'Campo Imperatore (Μικρό Θιβέτ), Απέννινα')">
+            <img class="gallery-img" src="images/trip_7_img_4.jpg" alt="Campo Imperatore (Μικρό Θιβέτ), Απέννινα" loading="eager">
+            <div class="gallery-caption">Campo Imperatore (Μικρό Θιβέτ), Απέννινα</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (English / European Alps)</span>
+              <span class="youtube-title">Passo dello Stelvio & Dolomites Top Passes by Motorcycle</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=7S667ns7Upk" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Δολομιτες+Stelvio+ταξιδι+με+μηχανη" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Ταξίδι με μηχανή στους Δολομίτες & Stelvio [Ελληνικά]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Passo dello Stelvio (2.757m): 48 αριθμημένες φουρκέτες στην πιο διάσημη ανάβαση του κόσμου.</li><li>Passo Gavia & Passo Giau: Άγρια, αφιλόξενα και επιβλητικά αλπικά τοπία.</li><li>Sella Ronda (Passo Sella, Gardena, Pordoi, Campolongo): Οι κάθετοι ασβεστολιθικοί τοίχοι των Δολομιτών.</li><li>Campo Imperatore (Gran Sasso): Το μοναδικό άδενδρο οροπέδιο της Κεντρικής Ιταλίας.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Έξυπνο transit: Γλιτώνετε 2.500 km βαρετών αυτοκινητοδρόμων με ένα overnight ferry.</li><li>Η πιο εντυπωσιακή ορεινή αρχιτεκτονική τοπίου στην Ευρώπη.</li><li>Άριστη τουριστική υποδομή, φιλόξενη για μοτοσυκλετιστές παντού.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Αυξημένη τιμή σε διαμονή, φαγητό και βενζίνη (Βόρεια Ιταλία).</li><li>Τεράστια κίνηση από ποδηλάτες, αυτοκινούμενα και σπορ αυτοκίνητα τον Ιούλιο/Αύγουστο.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Πολύ σφιχτές φουρκέτες με έντονη κλίση στο Stelvio που απαιτούν καλό έλεγχο συμπλέκτη/γκαζιού.</li><li>Απότομες πτώσεις θερμοκρασίας και ξαφνικό χιόνι ακόμα και το κατακαλόκαιρο πάνω από τα 2.500m.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 9/10. Το καρμπυρατέρ του παλιού Africa Twin θα νιώσει τον αραιό αέρα στα 2.757m του Stelvio αλλά ανεβαίνει ακούραστα. Το Transalp με ψεκασμό και modes πετάει.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 8 -->
+      <article class="trip-card" data-category="mediterranean">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🏍️ Επιλογη #8 — Ατελειωτη Ασφαλτος</div>
+            <h2 class="trip-title">Η Ορεινή Ιβηρική: Πυρηναία & Picos de Europa</h2>
+            <div class="trip-countries">Ισπανία (μέσω Ferries Ιταλίας – Βαρκελώνης)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">9/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">6.500 – 7.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">20 – 24 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 8%</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Ελάχιστη ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€2.300 – €3.150 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Ιούν / Σεπ - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Η Ισπανία θεωρείται από τους κορυφαίους ταξιδιώτες η χώρα με το καλύτερο δευτερεύον επαρχιακό δίκτυο στον πλανήτη: άδειοι δρόμοι, τέλεια άσφαλτος και απίστευτη ροή. Με ferries φτάνετε στη Βαρκελώνη παρακάμπτοντας τις βαρετές γαλλικές autostrades. Οδηγείτε τον θρυλικό N-260 στα Πυρηναία (500 km συνεχούς στροφής), συνεχίζετε στα άγρια Picos de Europa και διασχίζετε την ερημική ενδοχώρα της Καστίλης.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_8.jpg', 'Χάρτης Διαδρομής: Η Ορεινή Ιβηρική: Πυρηναία & Picos de Europa (~6.500 – 7.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_8.jpg" alt="Χάρτης Διαδρομής: Η Ορεινή Ιβηρική: Πυρηναία & Picos de Europa (~6.500 – 7.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_8_img_1.jpg', 'Ο Μυθικός Δρόμος N-260, Πυρηναία')">
+            <img class="gallery-img" src="images/trip_8_img_1.jpg" alt="Ο Μυθικός Δρόμος N-260, Πυρηναία" loading="eager">
+            <div class="gallery-caption">Ο Μυθικός Δρόμος N-260, Πυρηναία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_8_img_2.jpg', 'Εθνικό Πάρκο Picos de Europa, Ισπανία')">
+            <img class="gallery-img" src="images/trip_8_img_2.jpg" alt="Εθνικό Πάρκο Picos de Europa, Ισπανία" loading="eager">
+            <div class="gallery-caption">Εθνικό Πάρκο Picos de Europa, Ισπανία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_8_img_3.jpg', 'Albarracín & Montes Universales')">
+            <img class="gallery-img" src="images/trip_8_img_3.jpg" alt="Albarracín & Montes Universales" loading="eager">
+            <div class="gallery-caption">Albarracín & Montes Universales</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_8_img_4.jpg', 'Sierra Nevada & Ανδαλουσία')">
+            <img class="gallery-img" src="images/trip_8_img_4.jpg" alt="Sierra Nevada & Ανδαλουσία" loading="eager">
+            <div class="gallery-caption">Sierra Nevada & Ανδαλουσία</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (English / Spain)</span>
+              <span class="youtube-title">The Best Road in Spain: Transpirenaica N-260 Motorcycle Adventure</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=uyspUy8nPPo" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Picos+de+Europa+motorcycle+trip" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Picos de Europa & Pyrenees Moto Tour">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Ο ισπανικός δρόμος N-260 (Eje Pirenaico): 500 km ασταμάτητου στροφιλικιού κατά μήκος των Πυρηναίων.</li><li>Picos de Europa: Τα πιο επιβλητικά ασβεστολιθικά φαράγγια της Βόρειας Ισπανίας.</li><li>Montes Universales: Η πιο αραιοκατοικημένη περιοχή της Νότιας Ευρώπης (οδηγείς ώρες χωρίς να δεις ψυχή).</li><li>Ανδαλουσία & Sierra Nevada: Ορεινά χωριά με φόντο τις ψηλότερες κορυφές της Ιβηρικής.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Η καλύτερη ποιότητα ασφάλτου και χάραξης δρόμων στην Ευρώπη.</li><li>Μηδενική κίνηση στο επαρχιακό δίκτυο σε σύγκριση με τις Άλπεις.</li><li>Πολύ λογικές τιμές διαμονής και φαγητού στην ισπανική επαρχία.</li><li>Λογική αστυνόμευση στους επαρχιακούς δρόμους.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Χρειάζονται δύο ξεχωριστά ferry (Ελλάδα-Ιταλία και Ιταλία-Βαρκελώνη).</li><li>Έντονες θερμοκρασίες στην κεντρική Ισπανία το καλοκαίρι.</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Μεγάλες αποστάσεις ανάμεσα στα βόρεια βουνά (Πυρηναία) και τον νότο (Ανδαλουσία).</li><li>Απαιτείται σωστός συντονισμός στις κρατήσεις των ferries.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 9/10. Οι ισπανικοί δρόμοι έχουν ανοιχτές καμπές με τρομερή ροή, όπου και οι δύο μηχανές ταξιδεύουν ξεκούραστα στα 90–115 km/h.</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 9 -->
+      <article class="trip-card" data-category="adventure">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">🧭 Επιλογη #9 — Δρομος του Μεταξιου</div>
+            <h2 class="trip-title">Ο Γύρος της Κασπίας & Αζερμπαϊτζάν</h2>
+            <div class="trip-countries">Τουρκία • Γεωργία • Αζερμπαϊτζάν (Silk Road Taster)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">9.5/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">8.500 – 10.000 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">24 – 30 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">< 8%</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Μικρή ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€1.700 – €2.450 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Ιούν / Σεπτέμβριος</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Μια αληθινή αποστολή που σας φέρνει στις ακτές της μεγαλύτερης λίμνης του πλανήτη, της Κασπίας Θάλασσας. Διασχίζετε την Τουρκία και τη Γεωργία για να μπείτε στο Αζερμπαϊτζάν: επισκέπτεστε τα παλιά καραβανσεράι στο Sheki, το απομονωμένο ορεινό χωριό Lahic στα βουνά του Καυκάσου, τα ηφαίστεια λάσπης στο Gobustan και το φουτουριστικό Μπακού.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_9.jpg', 'Χάρτης Διαδρομής: Ο Γύρος της Κασπίας & Αζερμπαϊτζάν (~8.500 – 10.000 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_9.jpg" alt="Χάρτης Διαδρομής: Ο Γύρος της Κασπίας & Αζερμπαϊτζάν (~8.500 – 10.000 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_9_img_1.jpg', 'Μπακού & Κασπία Θάλασσα, Αζερμπαϊτζάν')">
+            <img class="gallery-img" src="images/trip_9_img_1.jpg" alt="Μπακού & Κασπία Θάλασσα, Αζερμπαϊτζάν" loading="eager">
+            <div class="gallery-caption">Μπακού & Κασπία Θάλασσα, Αζερμπαϊτζάν</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_9_img_2.jpg', 'Ηφαίστεια Λάσπης στο Gobustan')">
+            <img class="gallery-img" src="images/trip_9_img_2.jpg" alt="Ηφαίστεια Λάσπης στο Gobustan" loading="eager">
+            <div class="gallery-caption">Ηφαίστεια Λάσπης στο Gobustan</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_9_img_3.jpg', 'Sheki, Σταθμός στον Δρόμο του Μεταξιού')">
+            <img class="gallery-img" src="images/trip_9_img_3.jpg" alt="Sheki, Σταθμός στον Δρόμο του Μεταξιού" loading="eager">
+            <div class="gallery-caption">Sheki, Σταθμός στον Δρόμο του Μεταξιού</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_9_img_4.jpg', 'Υπόσκαφη Πολιτεία Vardzia, Γεωργία')">
+            <img class="gallery-img" src="images/trip_9_img_4.jpg" alt="Υπόσκαφη Πολιτεία Vardzia, Γεωργία" loading="eager">
+            <div class="gallery-caption">Υπόσκαφη Πολιτεία Vardzia, Γεωργία</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Expedition Ride / English)</span>
+              <span class="youtube-title">Motorcycle Adventure to the Caspian Sea & Azerbaijan Silk Road</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/results?search_query=Azerbaijan+Baku+Caspian+motorcycle+trip" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/watch?v=BbTz7uVOKJE" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Georgia to Azerbaijan Roadtrip & Vardzia">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Μπακού & Κασπία Θάλασσα: Το ανατολικότερο σημείο που μπορεί να φτάσει κανείς οδικώς από την Ελλάδα χωρίς να μπει στη Ρωσία ή το Ιράν.</li><li>Ηφαίστεια Λάσπης στο Gobustan: Ένα εξωγήινο τοπίο με κρατήρες που κοχλάζουν κρύα λάσπη.</li><li>Lahic: Μεσαιωνικό πετρόχτιστο χωριό χαλκουργών στον Μεγάλο Καύκασο.</li><li>Vardzia (Γεωργία): Η υπόσκαφη μοναστηριακή πολιτεία λαξευμένη μέσα σε κατακόρυφο βράχο.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Πραγματική αίσθηση «Μεγάλου Ταξιδιού» (Expedition status).</li><li>Πολύ διαφορετικοί πολιτισμοί, μουσουλμανική και καυκάσια παράδοση.</li><li>Εξαιρετικά φθηνά καύσιμα και διαμονή στο Αζερμπαϊτζάν.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Απαιτείται ηλεκτρονική βίζα (e-Visa) για το Αζερμπαϊτζάν (βγαίνει εύκολα online).</li><li>Τα χερσαία σύνορα του Αζερμπαϊτζάν έχουν κατά καιρούς περιορισμούς (θέλει επιβεβαίωση πριν την αναχώρηση).</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Συνολική απόσταση σχεδόν 10.000 km που απαιτεί σωστή προετοιμασία αναλώσιμων (αλυσίδες, τακάκια, λάδια).</li><li>Γλώσσα: Στο Αζερμπαϊτζάν βοηθούν μόνο τα τούρκικα και τα ρώσικα.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 9.5/10. Μεγάλο raid adventure. Απαιτεί απλώς μια αλλαγή λαδιών καθ' οδόν (στα ~5.000 km στην Τιφλίδα ή στο Μπακού).</div>
+          </div>
+        </div>
+      </article>
+    
+
+      <!-- TRIP 10 -->
+      <article class="trip-card" data-category="nordkapp">
+        <div class="card-header">
+          <div class="card-title-group">
+            <div class="trip-rank">❄️ Επιλογη #10 — Η Εξυπνη Χαραξη</div>
+            <h2 class="trip-title">Nordkapp: Μέσω Βαλτικής, Φινλανδίας & Lofoten</h2>
+            <div class="trip-countries">Βαλτικές Χώρες • Φινλανδία • Νορβηγία (Lofoten)</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value">6.5/10</span>
+            <span class="score-label">Adventure Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">8.500 – 9.500 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">22 – 26 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">~ 25% (Μειωμένη)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Μέτρια/Υψηλή</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€3.400 – €4.900 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">20 Ιουν - 10 Αυγ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">Αν το Nordkapp παραμένει ο διακαής πόθος, αυτή είναι η μόνη χάραξη που αξίζει για μηχανές χωρίς cruise control. Αντί να λιώσετε στους γερμανικούς και σουηδικούς αυτοκινητόδρομους, ανεβαίνετε από Ρουμανία και Βαλτικές Χώρες, παίρνετε ferry Ταλίν-Ελσίνκι, διασχίζετε τα δάση της Φινλανδίας και κατεβαίνετε από τη μαγική δυτική ακτή της Νορβηγίας: νησιά Lofoten, Helgeland Coast, Atlantic Road και Trollstigen.</p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης & Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_10.jpg', 'Χάρτης Διαδρομής: Nordkapp: Μέσω Βαλτικής, Φινλανδίας & Lofoten (~8.500 – 9.500 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_10.jpg" alt="Χάρτης Διαδρομής: Nordkapp: Μέσω Βαλτικής, Φινλανδίας & Lofoten (~8.500 – 9.500 km) από Θεσσαλονίκη" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια & Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              
+          <div class="gallery-item" onclick="openLightbox('images/trip_10_img_1.jpg', 'Το Μνημείο της Υδρογείου στο Nordkapp')">
+            <img class="gallery-img" src="images/trip_10_img_1.jpg" alt="Το Μνημείο της Υδρογείου στο Nordkapp" loading="eager">
+            <div class="gallery-caption">Το Μνημείο της Υδρογείου στο Nordkapp</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_10_img_2.jpg', 'Νησιά Lofoten & Reine, Νορβηγία')">
+            <img class="gallery-img" src="images/trip_10_img_2.jpg" alt="Νησιά Lofoten & Reine, Νορβηγία" loading="eager">
+            <div class="gallery-caption">Νησιά Lofoten & Reine, Νορβηγία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_10_img_3.jpg', 'Atlantic Ocean Road, Νορβηγία')">
+            <img class="gallery-img" src="images/trip_10_img_3.jpg" alt="Atlantic Ocean Road, Νορβηγία" loading="eager">
+            <div class="gallery-caption">Atlantic Ocean Road, Νορβηγία</div>
+          </div>
+        
+          <div class="gallery-item" onclick="openLightbox('images/trip_10_img_4.jpg', 'Trollstigen Pass, Νορβηγία')">
+            <img class="gallery-img" src="images/trip_10_img_4.jpg" alt="Trollstigen Pass, Νορβηγία" loading="eager">
+            <div class="gallery-caption">Trollstigen Pass, Νορβηγία</div>
+          </div>
+        
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Official Honda Africa Twin / English)</span>
+              <span class="youtube-title">Honda Adventure Roads: 40 Africa Twins Ride to Nordkapp (Ορόσημο)</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/watch?v=FTJwdhe4Y3c" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Nordkapp+ταξιδι+με+μηχανη+ελληνικα" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Ταξίδι στο Nordkapp με Μοτοσυκλέτα [Ελληνικά Vlogs]">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list"><li>Νησιά Lofoten: Τα πιο θεαματικά παράκτια βουνά και ψαροχώρια στον πλανήτη.</li><li>Ο Ήλιος του Μεσονυκτίου: Οδήγηση στις 02:00 το βράδυ με πλήρες φυσικό φως ημέρας.</li><li>Το ορόσημο του Βόρειου Ακρωτηρίου (71°10′21″ N) και η θέα στον Αρκτικό Ωκεανό.</li><li>Trollstigen & Geirangerfjord: Τα πιο επιβλητικά φιόρδ της Νότιας Νορβηγίας.</li></ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list"><li>Γλιτώνει πάνω από 1.500 km ατελείωτης Autobahn σε σχέση με τη διαδρομή μέσω Γερμανίας.</li><li>Η νορβηγική ακτή προσφέρει ασύγκριτη φυσική ομορφιά.</li><li>Το αίσθημα ολοκλήρωσης ενός παγκόσμιου μοτοσυκλετιστικού οροσήμου.</li></ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list"><li>Εξαιρετικά ακριβό ταξίδι (€3.500 – €4.500+ ανά αναβάτη).</li><li>Συνεχές άγχος για τις κάμερες και τα αυστηρότατα όρια ταχύτητας (70–80 km/h στη Νορβηγία).</li><li>Μόνιμος κίνδυνος συνεχούς βροχής και κρύου (4–10°C).</li></ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες & Προκλήσεις</div>
+              <ul class="quad-list"><li>Κόπωση στον δεξιό καρπό στις μεγάλες ευθείες της Φινλανδίας και Πολωνίας χωρίς cruise control.</li><li>Τάρανδοι που πετάγονται απροειδοποίητα μέσα από τα δάση στον δρόμο.</li><li>Απαιτείται κορυφαίος αδιάβροχος και ισοθερμικός εξοπλισμός.</li></ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp & Africa Twin:</strong> 6.5/10. Εφικτό αλλά οι μηχανές αυτές δεν φτιάχτηκαν για να κινούνται επί μέρες με σταθερό γκάζι στα 80 km/h. Αν επιλεγεί, συνιστάται οπωσδήποτε η προσθήκη μηχανικού throttle lock (cruise assist).</div>
+          </div>
+        </div>
+      </article>
+    
+    
+      <!-- TRIP 11 -->
+      <article class="trip-card" data-category="dream" style="border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 4px 25px rgba(245, 158, 11, 0.12);">
+        <div class="card-header" style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, transparent 100%);">
+          <div class="card-title-group">
+            <div class="trip-rank">⭐ SPECIAL DREAM TRIP — ΤΟ ΟΝΕΙΡΟ ΖΩΗΣ</div>
+            <h2 class="trip-title" style="color:#fde68a;">Ο Μεγάλος Παραλιακός Γύρος της Μεσογείου</h2>
+            <div class="trip-countries">Ελλάδα • Αλβανία • Μαυροβούνιο • Κροατία • Ιταλία • Γαλλία • Ισπανία • Μαρόκο • Τυνησία</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value" style="color:var(--accent);">10/10</span>
+            <span class="score-label">Life Goal Score</span>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val">11.500 – 13.000 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val">35 – 45 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">&lt; 8% (Παραλιακά)</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val col-highlight">€3.600 – €5.200 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Μάιος - Ιούν / Σεπ - Οκτ</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">
+            Το απόλυτο όνειρο ζωής για κάθε ταξιδιώτη αναβάτη: η πλήρης περιμετρική διάσχιση των ακτών της Μεσογείου («Mare Nostrum»). Ξεκινώντας από τη Θεσσαλονίκη, κατεβαίνετε το Llogara Pass στην Αλβανία, διασχίζετε τον Κόλπο του Kotor και τη μαγευτική Jadranska Magistrala στην Κροατία (650 km παραλιακής στροφής), περνάτε στην Ιταλική και Γαλλική Ριβιέρα (Κυανή Ακτή), συνεχίζετε στην Costa Brava και Costa del Sol μέχρι το Γιβραλτάρ και το Tarifa. Εκεί περνάτε στην Αφρική: ακολουθείτε τη μεσογειακή ακτή του Μαρόκου (Al Hoceima, Ριφ), συνδέεστε ακτοπλοϊκά με την Τυνησία (Καρχηδόνα, Σιδί Μπου Σαΐντ), επιστρέφετε στη Σικελία, οδηγείτε την Ακτή Αμάλφι και γυρίζετε στην Ελλάδα.
+          </p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag">🗺️ Χαρτης Διαδρομης &amp; Σταθμοι (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_11.jpg', 'Χάρτης: Ο Μεγάλος Παραλιακός Γύρος της Μεσογείου (~12.000 km) από Θεσσαλονίκη')">
+              <img class="route-map-img" src="images/map_trip_11.jpg" alt="Χάρτης Διαδρομής 11" loading="eager">
+              <div class="map-badge-overlay">🔍 Μεγέθυνση Χάρτη</div>
+            </div>
+
+            <div class="section-tag">📸 Σημεια &amp; Τοπια της Διαδρομης</div>
+            <div class="gallery-grid">
+              <div class="gallery-item" onclick="openLightbox('images/trip_11_img_1.jpg', 'Jadranska Magistrala (Δαλματικές Ακτές, Κροατία)')">
+                <img class="gallery-img" src="images/trip_11_img_1.jpg" alt="Jadranska Magistrala" loading="eager">
+                <div class="gallery-caption">Jadranska Magistrala (Δαλματικές Ακτές, Κροατία)</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_11_img_2.jpg', 'Ακτή Αμάλφι &amp; Κυανή Ακτή')">
+                <img class="gallery-img" src="images/trip_11_img_2.jpg" alt="Ακτή Αμάλφι" loading="eager">
+                <div class="gallery-caption">Ακτή Αμάλφι &amp; Κυανή Ακτή</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_11_img_3.jpg', 'Στενό του Γιβραλτάρ &amp; Tarifa (Ευρώπη - Αφρική)')">
+                <img class="gallery-img" src="images/trip_11_img_3.jpg" alt="Γιβραλτάρ Tarifa" loading="eager">
+                <div class="gallery-caption">Στενό του Γιβραλτάρ &amp; Tarifa (Ευρώπη - Αφρική)</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_11_img_4.jpg', 'Σιδί Μπου Σαΐντ &amp; Μεσογειακή Αφρική')">
+                <img class="gallery-img" src="images/trip_11_img_4.jpg" alt="Σιδί Μπου Σαΐντ Τυνησία" loading="eager">
+                <div class="gallery-caption">Σιδί Μπου Σαΐντ &amp; Μεσογειακή Αφρική</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- YOUTUBE VIDEO LINK -->
+          <div class="youtube-box">
+            <div class="youtube-info">
+              <span class="youtube-badge">▶ Bίντεο Διαδρομής (Mediterranean Tour / ADV)</span>
+              <span class="youtube-title">Around the Mediterranean by Motorcycle — The Ultimate Coastal Tour</span>
+            </div>
+            <div class="youtube-links-group">
+              <a href="https://www.youtube.com/results?search_query=Mediterranean+coast+motorcycle+tour" target="_blank" rel="noopener noreferrer" class="youtube-btn">
+                <span>Προβολή στο YouTube</span> ↗
+              </a>
+              <a href="https://www.youtube.com/results?search_query=Jadranska+Magistrala+Amalfi+Gibraltar+motorcycle" target="_blank" rel="noopener noreferrer" class="youtube-btn btn-alt" title="Παραλιακές διαδρομές Μεσογείου με μηχανή">
+                <span>Εναλλακτικό / Vlogs</span> ↗
+              </a>
+            </div>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list">
+                <li>Jadranska Magistrala: 650 km αδιάκοπης παραλιακής ασφάλτου κατά μήκος των δαλματικών νησιών.</li>
+                <li>Κυανή Ακτή &amp; Ακτή Αμάλφι: Οι πιο διάσημες ριβιέρες της Ευρώπης με στροφές πάνω από τα βράχια.</li>
+                <li>Στενό του Γιβραλτάρ &amp; Tarifa: Το σημείο όπου συναντιέται η Ευρώπη με την Αφρική.</li>
+                <li>Μεσογειακή Αφρική: Τα άγρια παράλια του Μαρόκου (Al Hoceima) και τα λευκά-μπλε σοκάκια του Sidi Bou Said.</li>
+              </ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list">
+                <li>Το απόλυτο «Bucket List» ταξίδι ζωής: Συνεχής θέα στο απέραντο γαλάζιο της Μεσογείου.</li>
+                <li>Τεράστιος πλούτος πολιτισμών: 8 χώρες, 2 ήπειροι, λατινική, σλαβική και αραβική παράδοση.</li>
+                <li>Ιδανικό κλίμα άνοιξη και φθινόπωρο χωρίς τις ακραίες κακοκαιρίες των αρκτικών περιοχών.</li>
+              </ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list">
+                <li>Απαιτεί μεγάλο χρονικό παράθυρο (τουλάχιστον 5–6 εβδομάδες άδεια).</li>
+                <li>Γεωπολιτική ιδιαιτερότητα: Τα χερσαία σύνορα Μαρόκου-Αλγερίας είναι κλειστά από το 1994, οπότε η σύνδεση Μαρόκου με Τυνησία γίνεται υποχρεωτικά μέσω ναυτικών συνδέσεων (Ferry).</li>
+              </ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες &amp; Προκλήσεις</div>
+              <ul class="quad-list">
+                <li>Αποφυγή Ιουλίου &amp; Αυγούστου πάση θυσία (τεράστια κίνηση και εξωφρενικές τιμές στις ριβιέρες).</li>
+                <li>Συντονισμός 3–4 ακτοπλοϊκών εισιτηρίων (Tarifa-Ταγγέρη, Μαρόκο/Ιταλία-Τυνησία, Τυνησία-Σικελία, Ιταλία-Ελλάδα).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box">
+            <div class="bike-fit-icon">🤝</div>
+            <div><strong>Ταίριασμα με Transalp &amp; Africa Twin:</strong> 10/10. Το Africa Twin RD07A επιστρέφει στη μεσογειακή και αφρικανική του κληρονομιά. Το Transalp 750 E-Clutch κάνει την αργή κίνηση και τις φουρκέτες στις παραλιακές πόλεις (Αμάλφι, Νίκαια, Ταγγέρη) εντελώς ξεκούραστη χωρίς κράμπες στο αριστερό χέρι.</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- TRIP 12: BOSS LEVEL -->
+      <article class="trip-card" data-category="boss" style="border: 2px solid var(--danger); box-shadow: 0 6px 35px rgba(244, 63, 94, 0.25); background: linear-gradient(180deg, #18131e 0%, #151a23 100%);">
+        <div class="card-header" style="background: linear-gradient(90deg, rgba(244, 63, 94, 0.15) 0%, transparent 100%); border-bottom: 1px solid rgba(244, 63, 94, 0.3);">
+          <div class="card-title-group">
+            <div class="trip-rank" style="color:var(--danger); font-size:0.9rem;">👹 THE FINAL BOSS LEVEL — Η ΑΠΟΛΥΤΗ ΧΕΡΣΑΙΑ ΑΠΟΣΤΟΛΗ</div>
+            <h2 class="trip-title" style="color:#fecdd3; font-size:clamp(1.35rem, 4.5vw, 1.75rem);">Ο Πλήρης Χερσαίος Γύρος της Μεσογείου 360°</h2>
+            <div class="trip-countries" style="color:#fda4af;">3 Ήπειροι (Ευρώπη • Αφρική • Ασία) • 16 Χώρες • 1 Αδιάκοπος Κύκλος 360°</div>
+          </div>
+          <div class="card-score-badge">
+            <span class="score-value" style="color:var(--danger);">BOSS</span>
+            <span class="score-label" style="color:#fda4af;">Mythic Status</span>
+          </div>
+        </div>
+
+        <div class="stats-bar" style="background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(244, 63, 94, 0.25);">
+          <div class="stat-item"><span class="stat-label">Χιλιομετρα</span><span class="stat-val" style="color:#fecdd3;">19.000 – 21.000 km</span></div>
+          <div class="stat-item"><span class="stat-label">Διαρκεια</span><span class="stat-val" style="color:#fecdd3;">60 – 75 ημέρες</span></div>
+          <div class="stat-item"><span class="stat-label">Εθνικη Οδος</span><span class="stat-val col-highlight">&lt; 6%</span></div>
+          <div class="stat-item"><span class="stat-label">Cruise Control</span><span class="stat-val">Καμία ανάγκη</span></div>
+          <div class="stat-item"><span class="stat-label">Κοστος (Ρεαλιστικο @ 6L)</span><span class="stat-val" style="color:var(--warning); font-weight:800;">€5.500 – €7.800 / άτομο</span></div>
+          <div class="stat-item"><span class="stat-label">Καλυτεροι Μηνες</span><span class="stat-val">Απρ - Ιούν / Σεπ - Νοε</span></div>
+        </div>
+
+        <div class="card-body">
+          <p class="trip-summary">
+            <strong>Η απόλυτη αποστολή στην ιστορία της μοτοσυκλέτας.</strong> Ένας αδιάκοπος χερσαίος κύκλος 360 μοιρών γύρω από ολόκληρη τη λεκάνη της Μεσογείου («Mare Nostrum»), ενώνοντας την <strong>Ευρώπη, την Αφρική και την Ασία</strong> χωρίς επιστροφή από τον ίδιο δρόμο. Ξεκινάτε από τη Θεσσαλονίκη, κατεβαίνετε την Αδριατική (Κροατία), διασχίζετε τη Γαλλική Ριβιέρα και την Ισπανία μέχρι το Γιβραλτάρ. Περνάτε στην Αφρική και οδηγείτε ολόκληρη τη Βόρεια Αφρική: Μαρόκο, Αλγερία, Τυνησία, τα 2.000 km της ερημικής παραλιακής οδού της Λιβύης (Via Balbia), φτάνετε στην Αλεξάνδρεια και το Κάιρο στην Αίγυπτο, περνάτε στη Μέση Ανατολή (Σινά, Ιορδανία, Λεβάντε), και επιστρέφετε μέσω ολόκληρης της μεσογειακής Τουρκίας (Αττάλεια, Σμύρνη, Δαρδανέλλια) στη Θεσσαλονίκη.
+          </p>
+
+          <!-- ROUTE MAP & DESTINATION PHOTOS -->
+          <div class="media-section">
+            <div class="section-tag" style="color:var(--danger);">🗺️ Χαρτης Διαδρομης 360° (Κλικ για μεγεθυνση)</div>
+            <div class="route-map-wrapper" onclick="openLightbox('images/map_trip_boss.jpg', 'Χάρτης: THE FINAL BOSS — Ο Πλήρης Χερσαίος Γύρος της Μεσογείου 360° (~19.500 km)')" style="border-color: rgba(244, 63, 94, 0.4);">
+              <img class="route-map-img" src="images/map_trip_boss.jpg" alt="Χάρτης BOSS Level" loading="eager">
+              <div class="map-badge-overlay" style="border-color:var(--danger); color:#fda4af;">🔍 Μεγέθυνση Χάρτη 360°</div>
+            </div>
+
+            <div class="section-tag" style="color:var(--danger);">📸 Τα 4 Μεγαλα Οροσημα της Μεσογειου</div>
+            <div class="gallery-grid">
+              <div class="gallery-item" onclick="openLightbox('images/trip_boss_img_1.jpg', 'Οι Στήλες του Ηρακλή: Γιβραλτάρ (Ευρώπη)')">
+                <img class="gallery-img" src="images/trip_boss_img_1.jpg" alt="Γιβραλτάρ" loading="eager">
+                <div class="gallery-caption">Οι Στήλες του Ηρακλή: Γιβραλτάρ (Ευρώπη)</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_boss_img_2.jpg', 'Αρχαία Leptis Magna (Παράλια Λιβύης / Αφρική)')">
+                <img class="gallery-img" src="images/trip_boss_img_2.jpg" alt="Leptis Magna Λιβύη" loading="eager">
+                <div class="gallery-caption">Αρχαία Leptis Magna (Παράλια Λιβύης)</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_boss_img_3.jpg', 'Αλεξάνδρεια &amp; Μεσογειακή Αίγυπτος')">
+                <img class="gallery-img" src="images/trip_boss_img_3.jpg" alt="Αλεξάνδρεια Αίγυπτος" loading="eager">
+                <div class="gallery-caption">Αλεξάνδρεια &amp; Μεσογειακή Αίγυπτος</div>
+              </div>
+              <div class="gallery-item" onclick="openLightbox('images/trip_boss_img_4.jpg', 'Τουρκική Τιρκουάζ Ριβιέρα (Αττάλεια / Μ. Ασία)')">
+                <img class="gallery-img" src="images/trip_boss_img_4.jpg" alt="Αττάλεια Τουρκία" loading="eager">
+                <div class="gallery-caption">Τουρκική Τιρκουάζ Ριβιέρα (Αττάλεια)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GEOPOLITICAL REALITY BOX -->
+          <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: 10px; padding: 1.1rem; margin-bottom: 1.5rem;">
+            <h4 style="color:#fda4af; font-size:0.95rem; margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+              ⚠️ Η Γεωπολιτική Πραγματικότητα των 3 «Τειχών» (The 3 Hard Walls)
+            </h4>
+            <p style="font-size:0.86rem; color:#e2e8f0; line-height:1.55; margin-bottom:0.5rem;">
+              Για να πραγματοποιηθεί αυτό το ταξίδι 100% οδικώς σήμερα, υπάρχουν 3 κρίσιμα σημεία εμπλοκής:
+            </p>
+            <ul style="font-size:0.84rem; color:#cbd5e1; padding-left:1.2rem; line-height:1.5;">
+              <li><strong>1. Σύνορα Μαρόκου – Αλγερίας:</strong> Ερμητικά κλειστά από το 1994. <em>Λύση:</em> Σύντομη ναυτιλιακή παράκαμψη ή αναμονή διπλωματικού ανοίγματος.</li>
+              <li><strong>2. Λιβύη (Via Balbia):</strong> Η χώρα παραμένει σε κατάσταση εμφυλίου/διχασμού. Η τουριστική διέλευση μοτοσυκλετών απαγορεύεται ή απαιτεί ένοπλη συνοδεία.</li>
+              <li><strong>3. Συρία / Λεβάντε:</strong> Ο εμφύλιος πόλεμος και τα κλειστά σύνορα προς Τουρκία καθιστούν αδύνατη τη χερσαία επιστροφή από Αίγυπτο χωρίς Ro-Ro πλοίο (Αίγυπτος -> Τουρκία/Ελλάδα).</li>
+            </ul>
+          </div>
+
+          <!-- QUADRANTS: HIGHLIGHTS, PROS, CONS, CHALLENGES -->
+          <div class="quad-grid">
+            <div class="quad-box highlights">
+              <div class="quad-title">🌟 Δυνατά Σημεία</div>
+              <ul class="quad-list">
+                <li>3 Ήπειροι &amp; 16 Χώρες: Η μεγαλύτερη γεωγραφική &amp; ιστορική περιπέτεια στον πλανήτη.</li>
+                <li>Όλα τα αρχαία θαύματα: Πυραμίδες, Αλεξάνδρεια, Καρχηδόνα, Leptis Magna, Έφεσος, Ρώμη, Αθήνα.</li>
+                <li>Όλες οι μεσογειακές ριβιέρες: Αδριατική, Κυανή Ακτή, Ανδαλουσία, Τουρκική Τιρκουάζ Ακτή.</li>
+                <li>Απόλυτο status θρύλου για όποιον αναβάτη το ολοκληρώσει.</li>
+              </ul>
+            </div>
+
+            <div class="quad-box pros">
+              <div class="quad-title">👍 Υπέρ</div>
+              <ul class="quad-list">
+                <li>Μηδέν επιστροφή από τα ίδια: Κάθε χιλιόμετρο είναι 100% νέο τοπίο σε όλη τη διάρκεια.</li>
+                <li>Η μεγαλύτερη εναλλαγή πολιτισμών (Ευρωπαϊκός, Βερβερικός, Αραβικός, Οθωμανικός).</li>
+                <li>Πραγματικός "Silk Road &amp; Dakar" συνδυασμός.</li>
+              </ul>
+            </div>
+
+            <div class="quad-box cons">
+              <div class="quad-title">👎 Κατά</div>
+              <ul class="quad-list">
+                <li>Απαιτεί 2 έως 2.5 μήνες συνεχούς ταξιδιού.</li>
+                <li>Εξαιρετικά πολύπλοκη γραφειοκρατία (πολλαπλές βίζες, carnet de passages, συνοριακές άδειες).</li>
+                <li>Υψηλό κόστος συντήρησης (αλλαγή ελαστικών 2 φορές, αλυσίδες, 3 service λαδιών στο δρόμο).</li>
+              </ul>
+            </div>
+
+            <div class="quad-box challenges">
+              <div class="quad-title">⚡ Δυσκολίες &amp; Προκλήσεις</div>
+              <ul class="quad-list">
+                <li>Ασφάλεια στη Βόρεια Αφρική &amp; Μέση Ανατολή (απαιτείται ακριβής παρακολούθηση της κατάστασης).</li>
+                <li>Ακραίες θερμοκρασίες στην έρημο της Βόρειας Αφρικής αν δεν επιλεγεί σωστή εποχή (Απρίλιος ή Οκτώβριος).</li>
+                <li>Σωματική και πνευματική αντοχή 70 ημερών συνεχούς οδήγησης.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bike-fit-box" style="border-color: rgba(244, 63, 94, 0.4); background: rgba(244, 63, 94, 0.06);">
+            <div class="bike-fit-icon">👑</div>
+            <div><strong>Ταίριασμα με Transalp E-Clutch &amp; Africa Twin '98:</strong> 10/10. Εδώ το Africa Twin RD07A δικαιώνει το όνομά του — ένας θρυλικός κινητήρας χωρίς ευπαθή ηλεκτρονικά που αντέχει στην έρημο της Αφρικής. Το Transalp 750 E-Clutch προσφέρει τη σύγχρονη αξιοπιστία, την ξεκούραση στα χιλιάδες σταματήματα και την ιπποδύναμη για τις αχανείς ευθείες της Βόρειας Αφρικής.</div>
+          </div>
+        </div>
+      </article>
+</div>
+
+    <!-- COMPARISON TABLE -->
+    <section class="table-section">
+      <h2>Συγκριτικός Πίνακας & Αξιολόγηση</h2>
+      <p>Συγκεντρωτική βαθμολόγηση με βάση τα κριτήρια: έλλειψη cruise control, ποιότητα επαρχιακών δρόμων, ομορφιά τοπίων και συμβατότητα με Transalp 750 & Africa Twin 750.</p>
+
+      <div class="table-scroll-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Ταξιδι</th>
+            <th>Χιλιομετρα</th>
+            <th>Ημερες</th>
+            <th>Χαμενα km Εθνικης</th>
+            <th>Cruise Control</th>
+            <th>Εξωτικα Τοπια</th>
+            <th>Κοστος</th>
+            <th>Bike Fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td><strong>Καύκασος & Ανατολία</strong></td>
+            <td>7.000–8.500</td>
+            <td>20–25</td>
+            <td class="col-highlight">&lt; 5%</td>
+            <td>Καμία ανάγκη</td>
+            <td>10/10 (Κορυφαία)</td>
+            <td class="col-highlight"><strong>€1.600 – €2.100</strong></td>
+            <td class="col-score">10 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td><strong>Αν. Ανατολία & Μεσοποταμία</strong></td>
+            <td>5.500–6.500</td>
+            <td>15–18</td>
+            <td class="col-highlight">&lt; 8%</td>
+            <td>Καμία ανάγκη</td>
+            <td>9.5/10</td>
+            <td class="col-highlight"><strong>€1.050 – €1.500</strong></td>
+            <td class="col-score">10 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td><strong>Άγρια Βαλκάνια & Καρπάθια</strong></td>
+            <td>5.000–6.500</td>
+            <td>14–18</td>
+            <td class="col-highlight">~ 0%</td>
+            <td>Άχρηστο</td>
+            <td>8.5/10</td>
+            <td class="col-highlight"><strong>€1.200 – €1.700</strong></td>
+            <td class="col-score">10 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td><strong>Trans-Dinaric & Σλοβενία</strong></td>
+            <td>4.500–5.500</td>
+            <td>14–17</td>
+            <td class="col-highlight">&lt; 3%</td>
+            <td>Καμία ανάγκη</td>
+            <td>8.5/10</td>
+            <td class="col-highlight"><strong>€1.250 – €1.800</strong></td>
+            <td class="col-score">10 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td><strong>Μαρόκο & Άτλαντας</strong></td>
+            <td>5.500–7.500</td>
+            <td>18–22</td>
+            <td class="col-highlight">&lt; 10% (ferry)</td>
+            <td>Καμία ανάγκη</td>
+            <td>10/10 (Έρημος)</td>
+            <td class="col-highlight"><strong>€1.850 – €2.600</strong></td>
+            <td class="col-score">9.5 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>6</strong></td>
+            <td><strong>Νησιά (Σικελία/Σαρδηνία/Κορσική)</strong></td>
+            <td>4.500–5.500</td>
+            <td>16–20</td>
+            <td class="col-highlight">~ 0%</td>
+            <td>Άχρηστο</td>
+            <td>9/10</td>
+            <td class="col-highlight"><strong>€2.100 – €2.900</strong></td>
+            <td class="col-score">9.5 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>7</strong></td>
+            <td><strong>Δολομίτες & Ιταλικές Άλπεις</strong></td>
+            <td>4.500–5.500</td>
+            <td>12–16</td>
+            <td class="col-highlight">&lt; 5% (ferry)</td>
+            <td>Καμία ανάγκη</td>
+            <td>9.5/10 (Άλπεις)</td>
+            <td class="col-highlight"><strong>€1.850 – €2.600</strong></td>
+            <td class="col-score">9.0 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>8</strong></td>
+            <td><strong>Ορεινή Ιβηρική (Πυρηναία/Picos)</strong></td>
+            <td>6.500–7.500</td>
+            <td>20–24</td>
+            <td class="col-highlight">&lt; 8% (ferry)</td>
+            <td>Ελάχιστη</td>
+            <td>9/10</td>
+            <td class="col-highlight"><strong>€2.300 – €3.150</strong></td>
+            <td class="col-score">9.0 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>9</strong></td>
+            <td><strong>Γύρος Κασπίας & Αζερμπαϊτζάν</strong></td>
+            <td>8.500–10.000</td>
+            <td>24–30</td>
+            <td class="col-highlight">&lt; 8%</td>
+            <td>Μικρή</td>
+            <td>10/10 (Silk Road)</td>
+            <td class="col-highlight"><strong>€1.700 – €2.450</strong></td>
+            <td class="col-score">9.5 / 10</td>
+          </tr>
+          <tr>
+            <td><strong>10</strong></td>
+            <td><strong>Nordkapp (Έξυπνη Χάραξη)</strong></td>
+            <td>8.500–9.500</td>
+            <td>22–26</td>
+            <td style="color:var(--danger); font-weight:700;">~ 25%</td>
+            <td style="color:var(--danger); font-weight:700;">Μέτρια/Υψηλή</td>
+            <td>8.5/10</td>
+            <td style="color:var(--danger); font-weight:700;"><strong>€3.400 – €4.900</strong></td>
+            <td style="color:var(--danger); font-weight:800;">6.5 / 10</td>
+          </tr>
+                  <tr style="background:rgba(245, 158, 11, 0.05);">
+            <td><strong style="color:var(--accent);">11 ⭐</strong></td>
+            <td><strong style="color:var(--accent);">Παραλιακός Γύρος Μεσογείου</strong></td>
+            <td>11.500–13.000</td>
+            <td>35–45</td>
+            <td class="col-highlight">&lt; 8%</td>
+            <td>Καμία ανάγκη</td>
+            <td>10/10 (Life Goal)</td>
+            <td class="col-highlight"><strong>€3.600 – €5.200</strong></td>
+            <td class="col-score" style="color:var(--accent);">10 / 10</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:1rem; border-top:1px solid var(--card-border); padding-top:0.8rem;">
+        💡 <strong>Τι περιλαμβάνουν τα ποσά (Εκτίμηση ανά αναβάτη):</strong> Βενζίνη για τη μηχανή (~5.2L/100km υπολογισμένη με ακρίβεια στα 6.0 L / 100km για φορτωμένες μηχανές και πραγματικές τιμές αντλίας 2026), διαμονή σε ποιοτικά B&amp;B/ξενοδοχεία (δίκλινο twin sharing ανάμεσα στους 2 αναβάτες), πλήρη καθημερινή διατροφή (πρωινό/μεσημεριανό/βραδινό/καφέδες), διόδια/βινιέτες και όλα τα απαραίτητα ακτοπλοϊκά εισιτήρια με μηχανή &amp; καμπίνα. Για το συνολικό budget και των δύο μηχανών μαζί, πολλαπλασιάστε επί 2 (με μικρή εξοικονόμηση στο δίκλινο δωμάτιο).
+      </p>
+    </section>
+
+    <!-- FOOTER -->
+    
+    <!-- EXPEDITION PREP & TOOLKIT CHECKLIST -->
+    <section class="checklist-section" id="checklistSection">
+      <div class="section-header-row">
+        <div class="checklist-title-group">
+          <h2>🧰 Expedition Prep & Tool-Kit Checklist</h2>
+          <p>Διαδραστική λίστα προετοιμασίας &amp; ανταλλακτικών, προσαρμοσμένη για το Transalp 750 E-Clutch και το Africa Twin 750 '98. Οι επιλογές σας αποθηκεύονται αυτόματα στη συσκευή σας.</p>
+        </div>
+        <div class="progress-box">
+          <div class="progress-text">
+            <span>Πρόοδος Ελέγχου</span>
+            <span id="progressCount">0 / 25</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progressBar" class="progress-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist-grid">
+        <!-- CAT 1: ΤΡΟΧΟΙ & ΣΑΜΠΡΕΛΕΣ -->
+        <div class="check-cat-card">
+          <div class="check-cat-title">🛞 Τροχοί &amp; Σαμπρέλες</div>
+          <div class="check-items-list">
+            <label class="check-label"><input type="checkbox" id="c1"><span class="check-text">1x Σαμπρέλα 21" Heavy Duty (κοινή εμπρός και για τους 2)</span></label>
+            <label class="check-label"><input type="checkbox" id="c2"><span class="check-text">1x Σαμπρέλα 17" (πίσω τροχός Africa Twin RD07A)</span></label>
+            <label class="check-label"><input type="checkbox" id="c3"><span class="check-text">1x Σαμπρέλα 18" (πίσω τροχός Transalp 750)</span></label>
+            <label class="check-label"><input type="checkbox" id="c4"><span class="check-text">3x Λεβιέδες ελαστικών + 2x πλαστικά προστατευτικά ζάντας</span></label>
+            <label class="check-label"><input type="checkbox" id="c5"><span class="check-text">Φορητό κομπρεσεράκι 12V / μπαταρίας + μανόμετρο ακριβείας</span></label>
+            <label class="check-label"><input type="checkbox" id="c6"><span class="check-text">Σαπουνόνερο/πάστα τοποθέτησης + κιτ μπαλωμάτων/κόλλα</span></label>
+          </div>
+        </div>
+
+        <!-- CAT 2: AFRICA TWIN 750 (1998) SPARES -->
+        <div class="check-cat-card">
+          <div class="check-cat-title">🏜️ Africa Twin RD07A Spares</div>
+          <div class="check-items-list">
+            <label class="check-label"><input type="checkbox" id="c7"><span class="check-text">Εφεδρική αντλία βενζίνης (ή Facet / σωληνάκι bypass βαρύτητας)</span></label>
+            <label class="check-label"><input type="checkbox" id="c8"><span class="check-text">Εφεδρικός ανορθωτής τάσης (Regulator/Rectifier Mosfet)</span></label>
+            <label class="check-label"><input type="checkbox" id="c9"><span class="check-text">Συρματόσχοινο συμπλέκτη ρεζέρβα (δεμένο παράλληλα)</span></label>
+            <label class="check-label"><input type="checkbox" id="c10"><span class="check-text">Σπρέι καθαρισμού καρμπυρατέρ (για υψόμετρα/νοθευμένα καύσιμα)</span></label>
+            <label class="check-label"><input type="checkbox" id="c11"><span class="check-text">Εφεδρικές λάμπες H4 + ασφάλειες τύπου blade</span></label>
+          </div>
+        </div>
+
+        <!-- CAT 3: TRANSALP 750 E-CLUTCH (2026) -->
+        <div class="check-cat-card">
+          <div class="check-cat-title">⚡ Transalp 750 E-Clutch</div>
+          <div class="check-items-list">
+            <label class="check-label"><input type="checkbox" id="c12"><span class="check-text">Δεύτερο κλειδί με chip HISS (φυλαγμένο στη μηχανή του συνοδοιπόρου)</span></label>
+            <label class="check-label"><input type="checkbox" id="c13"><span class="check-text">Σετ εφεδρικών ασφαλειών micro (ειδικά για actuator E-Clutch &amp; ABS)</span></label>
+            <label class="check-label"><input type="checkbox" id="c14"><span class="check-text">Καλώδιο Jump-starter ή καλώδια φόρτισης μπαταρίας 12V</span></label>
+            <label class="check-label"><input type="checkbox" id="c15"><span class="check-text">Εξοικείωση με τη χειροκίνητη παράκαμψη E-Clutch μέσω μανέτας</span></label>
+          </div>
+        </div>
+
+        <!-- CAT 4: ΚΟΙΝΑ ΕΡΓΑΛΕΙΑ & ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ -->
+        <div class="check-cat-card">
+          <div class="check-cat-title">🔧 Κοινά Εργαλεία &amp; First Aid</div>
+          <div class="check-items-list">
+            <label class="check-label"><input type="checkbox" id="c16"><span class="check-text">Σετ καρυδάκια 8, 10, 12, 14, 17, 19, 22, 24mm + κλειδί άξονα τροχών</span></label>
+            <label class="check-label"><input type="checkbox" id="c17"><span class="check-text">JB Weld (υγρό μέταλλο) για ράγισμα κάρτερ/καπακιού από πέτρα</span></label>
+            <label class="check-label"><input type="checkbox" id="c18"><span class="check-text">1L Λάδι κινητήρα 10W-40 (συμβατό για συμπλήρωμα και στα 2)</span></label>
+            <label class="check-label"><input type="checkbox" id="c19"><span class="check-text">Tie-wraps (zip ties) διαφόρων μεγεθών + Duck Tape υψηλής αντοχής</span></label>
+            <label class="check-label"><input type="checkbox" id="c20"><span class="check-text">Σπρέι αλυσίδας + βουρτσάκι καθαρισμού + σουγιάς πολυεργαλείο</span></label>
+            <label class="check-label"><input type="checkbox" id="c21"><span class="check-text">Πλήρες φαρμακείο (αιμοστατικά, αντιβίωση, ηλεκτρολύτες, παυσίπονα)</span></label>
+          </div>
+        </div>
+
+        <!-- CAT 5: NAVIGATION, TECH & GEAR -->
+        <div class="check-cat-card">
+          <div class="check-cat-title">🧭 Navigation, Tech &amp; Gear</div>
+          <div class="check-items-list">
+            <label class="check-label"><input type="checkbox" id="c22"><span class="check-text">Ενδοεπικοινωνία Mesh (Cardo/Sena) φορτισμένη + καλώδια φόρτισης</span></label>
+            <label class="check-label"><input type="checkbox" id="c23"><span class="check-text">Offline χάρτες OSMAnd / Kurviger κατεβασμένοι σε smartphone/GPS</span></label>
+            <label class="check-label"><input type="checkbox" id="c24"><span class="check-text">eSIM για χώρες εκτός ΕΕ (Τουρκία, Γεωργία, Αλβανία, Μαρόκο)</span></label>
+            <label class="check-label"><input type="checkbox" id="c25"><span class="check-text">Αδιάβροχα πανωφόρια/γάντια + ισοθερμικά (εύρος καιρού 4°C έως 38°C)</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BORDER & PAPERWORK MATRIX -->
+    <section class="border-section" id="borderSection">
+      <h2>🛂 Οδηγός Συνόρων, Εγγράφων &amp; Πράσινης Κάρτας</h2>
+      <p>Γρήγορος πίνακας αναφοράς για όλες τις χώρες του report: έγγραφα εισόδου, βίζες, ισχύς πράσινης κάρτας και τελωνειακές απαιτήσεις οχήματος.</p>
+
+      <div class="table-scroll-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Χωρα</th>
+              <th>Εγγραφο Εισοδου</th>
+              <th>Βιζα (Visa)</th>
+              <th>Πρασινη Καρτα (Ασφαλιση)</th>
+              <th>Τελωνειο Οχηματος (TIP)</th>
+              <th>Mobile Data / Roaming</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Τουρκία</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα (Νέα)</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα (90 μέρες)</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική</span></td>
+              <td><span class="status-badge badge-pass">Σφραγίζεται στην Ταυτότητα</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Τοπική SIM)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Γεωργία</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα / Διαβατήριο</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα (365 μέρες)</span></td>
+              <td><span class="status-badge badge-warn">Αγορά στα σύνορα (~15€/μήνα)</span></td>
+              <td><span class="status-badge badge-ok">Άδεια στο όνομα αναβάτη</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Magti SIM)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Αρμενία</strong></td>
+              <td><span class="status-badge badge-pass">🛂 Υποχρεωτικό Διαβατήριο</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα (180 μέρες)</span></td>
+              <td><span class="status-badge badge-warn">Αγορά στα σύνορα (~10€/10ημ)</span></td>
+              <td><span class="status-badge badge-warn">Τέλος οικολογίας στα σύνορα</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Ucom SIM)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Αζερμπαϊτζάν</strong></td>
+              <td><span class="status-badge badge-pass">🛂 Υποχρεωτικό Διαβατήριο</span></td>
+              <td><span class="status-badge badge-warn">Ηλεκτρονική e-Visa (ASAN Visa)</span></td>
+              <td><span class="status-badge badge-warn">Αγορά στα σύνορα</span></td>
+              <td><span class="status-badge badge-warn">Έλεγχος χερσαίων συνόρων</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Azercell)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Μαρόκο</strong></td>
+              <td><span class="status-badge badge-pass">🛂 Υποχρεωτικό Διαβατήριο</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα (90 μέρες)</span></td>
+              <td><span class="status-badge badge-warn">Αγορά στο λιμάνι (~60€/μήνα)*</span></td>
+              <td><span class="status-badge badge-pass">Έντυπο D16-ter στο τελωνείο</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Maroc Telecom)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Αλβανία</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική</span></td>
+              <td><span class="status-badge badge-ok">Τυπικός έλεγχος</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / Vodafone AL)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Μαυροβούνιο</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική</span></td>
+              <td><span class="status-badge badge-ok">Τυπικός έλεγχος</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / m:tel SIM)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Βοσνία-Ερζεγοβίνη</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική</span></td>
+              <td><span class="status-badge badge-ok">Τυπικός έλεγχος</span></td>
+              <td><span class="status-badge badge-warn">Εκτός ΕΕ (eSIM / BH Telecom)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Σλοβενία / Ρουμανία / Ιταλία / Ισπανία</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα</span></td>
+              <td><span class="status-badge badge-ok">ΕΕ / Σένγκεν (Ελεύθερα)</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική (Πλήρης)</span></td>
+              <td><span class="status-badge badge-ok">Κανένας έλεγχος συνόρων</span></td>
+              <td><span class="status-badge badge-ok">Δωρεάν Roaming ΕΕ (Roam like at home)</span></td>
+            </tr>
+            <tr>
+              <td><strong>Νορβηγία</strong></td>
+              <td><span class="status-badge badge-id">🪪 Ελληνική Ταυτότητα (Σένγκεν)</span></td>
+              <td><span class="status-badge badge-ok">Χωρίς Βίζα (Σένγκεν)</span></td>
+              <td><span class="status-badge badge-ok">Ισχύει η Ελληνική</span></td>
+              <td><span class="status-badge badge-ok">Τυπικό τελωνείο (ΕΟΧ)</span></td>
+              <td><span class="status-badge badge-ok">Δωρεάν Roaming ΕΟΧ (Συνήθως ισχύει)</span></td>
+            </tr>
+                    <tr style="background:rgba(245, 158, 11, 0.05);">
+            <td><strong style="color:var(--accent);">11 ⭐</strong></td>
+            <td><strong style="color:var(--accent);">Παραλιακός Γύρος Μεσογείου</strong></td>
+            <td>11.500–13.000</td>
+            <td>35–45</td>
+            <td class="col-highlight">&lt; 8%</td>
+            <td>Καμία ανάγκη</td>
+            <td>10/10 (Life Goal)</td>
+            <td class="col-highlight"><strong>€3.600 – €5.200</strong></td>
+            <td class="col-score" style="color:var(--accent);">10 / 10</td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.8rem;">
+        * <em>Σημείωση για Μαρόκο: Ελέγξτε με την ελληνική ασφαλιστική σας εάν εκδίδει πράσινη κάρτα με σημειωμένο το «ΜΑ». Αν ναι, γλιτώνετε την αγορά ασφάλειας στο λιμάνι Tanger Med.</em>
+      </p>
+    </section>
+
+    <footer>
+      <p>Mega Moto Trip Report • Συντάχθηκε για Transalp 750 E-Clutch (2026) & Africa Twin 750 RD07A (1998) • Αφετηρία: Θεσσαλονίκη</p>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX MODAL WITH ROCK-SOLID ZOOM & PAN -->
+  <div id="lightboxModal" class="lightbox" onclick="handleBackdropClick(event)">
+    <div class="lightbox-toolbar" onclick="event.stopPropagation()">
+      <span class="lightbox-hint">💡 Pinch / Double-tap για zoom • Σύρετε για πλοήγηση</span>
+      <div class="lightbox-controls">
+        <button class="lb-btn" onclick="zoomIn(event)" title="Μεγέθυνση (Zoom In)">+</button>
+        <button class="lb-btn" onclick="zoomOut(event)" title="Σμίκρυνση (Zoom Out)">−</button>
+        <button class="lb-btn" onclick="resetZoom(event)" title="Επαναφορά (1:1)" style="font-size:0.75rem;">1:1</button>
+        <button class="lb-btn lb-close" onclick="closeLightbox(event)" title="Κλείσιμο (Esc)">✕</button>
+      </div>
+    </div>
+    
+    <div id="lightboxViewport" class="lightbox-viewport" onclick="handleViewportClick(event)">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="" draggable="false" onclick="handleImageClick(event)">
+    </div>
+    
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
+
+  <!-- FLOATING BACK TO TOP BUTTON -->
+  <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Κορυφή">↑</button>
+
+  <script>
+    // --- NAVIGATION FILTERING & SMOOTH SCROLL ---
+    function filterTrips(category, btn) {
+      const cards = document.querySelectorAll('.trip-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+
+      buttons.forEach(b => b.classList.remove('active'));
+      if (btn) {
+        btn.classList.add('active');
+      } else if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active');
+      }
+
+      let firstVisible = null;
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        let show = false;
+        if (category === 'all') {
+          show = true;
+        } else if (category === 'mediterranean') {
+          show = (cardCat === 'mediterranean' || cardCat === 'dream' || cardCat === 'boss');
+        } else {
+          show = (cardCat === category);
+        }
+
+        if (show) {
+          card.style.display = 'block';
+          if (!firstVisible) firstVisible = card;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Smooth scroll directly to the first visible card!
+      if (firstVisible) {
+        setTimeout(() => {
+          const nav = document.querySelector('.filter-section');
+          const navOffset = nav ? nav.offsetHeight + 18 : 75;
+          const cardTop = firstVisible.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: Math.max(0, cardTop - navOffset),
+            behavior: 'smooth'
+          });
+        }, 50);
+      }
+    }
+
+    // --- REFINED LIGHTBOX ZOOM & PAN ENGINE ---
+    const modal = document.getElementById('lightboxModal');
+    const viewport = document.getElementById('lightboxViewport');
+    const img = document.getElementById('lightboxImg');
+    const cap = document.getElementById('lightboxCaption');
+
+    let scale = 1.0;
+    const minScale = 1.0;
+    const maxScale = 4.5;
+    let posX = 0;
+    let posY = 0;
+
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let hasMoved = false;
+
+    let initialPinchDist = 0;
+    let initialPinchScale = 1.0;
+
+    let lastTapTimestamp = 0;
+
+    function applyTransform(withAnimation = false) {
+      if (withAnimation) {
+        img.classList.add('animating');
+        setTimeout(() => img.classList.remove('animating'), 240);
+      } else {
+        img.classList.remove('animating');
+      }
+
+      // Constrain position
+      if (scale <= 1.05) {
+        scale = 1.0;
+        posX = 0;
+        posY = 0;
+        viewport.style.cursor = 'default';
+        img.style.cursor = 'zoom-in';
+      } else {
+        viewport.style.cursor = 'grab';
+        img.style.cursor = 'grab';
+        
+        // Dynamic bounds based on container and current scale
+        const vw = viewport.clientWidth;
+        const vh = viewport.clientHeight;
+        const maxPanX = (vw * (scale - 1)) / 1.7;
+        const maxPanY = (vh * (scale - 1)) / 1.7;
+        
+        posX = Math.max(-maxPanX, Math.min(maxPanX, posX));
+        posY = Math.max(-maxPanY, Math.min(maxPanY, posY));
+      }
+
+      img.style.transform = `translate3d(${posX}px, ${posY}px, 0px) scale(${scale})`;
+    }
+
+    function zoomIn(e) {
+      if (e) e.stopPropagation();
+      scale = Math.min(maxScale, scale * 1.35);
+      applyTransform(true);
+    }
+
+    function zoomOut(e) {
+      if (e) e.stopPropagation();
+      scale = Math.max(minScale, scale / 1.35);
+      if (scale <= 1.05) { posX = 0; posY = 0; scale = 1; }
+      applyTransform(true);
+    }
+
+    function resetZoom(e) {
+      if (e) e.stopPropagation();
+      scale = 1.0;
+      posX = 0;
+      posY = 0;
+      applyTransform(true);
+    }
+
+    function openLightbox(src, caption) {
+      scale = 1.0;
+      posX = 0;
+      posY = 0;
+      img.src = src;
+      cap.textContent = caption;
+      applyTransform(false);
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e) e.stopPropagation();
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      resetZoom();
+    }
+
+    function handleBackdropClick(e) {
+      // Close if clicking outside the image and outside the toolbar
+      if (e.target === modal || e.target === viewport) {
+        closeLightbox(e);
+      }
+    }
+
+    function handleViewportClick(e) {
+      if (e.target === viewport && !hasMoved) {
+        closeLightbox(e);
+      }
+    }
+
+    function handleImageClick(e) {
+      e.stopPropagation();
+      if (hasMoved) return; // Don't toggle zoom if user was dragging!
+
+      // Double click / tap toggle
+      const now = Date.now();
+      if (now - lastTapTimestamp < 300) {
+        if (scale > 1.2) {
+          resetZoom();
+        } else {
+          scale = 2.4;
+          const rect = img.getBoundingClientRect();
+          const clickX = e.clientX - (rect.left + rect.width / 2);
+          const clickY = e.clientY - (rect.top + rect.height / 2);
+          posX = -clickX * 0.7;
+          posY = -clickY * 0.7;
+          applyTransform(true);
+        }
+        lastTapTimestamp = 0;
+      } else {
+        lastTapTimestamp = now;
+      }
+    }
+
+    // Touch Handling (Pinch & Pan)
+    viewport.addEventListener('touchstart', (e) => {
+      hasMoved = false;
+      if (e.touches.length === 1) {
+        if (scale > 1.05) {
+          isDragging = true;
+          dragStartX = e.touches[0].clientX - posX;
+          dragStartY = e.touches[0].clientY - posY;
+        }
+      } else if (e.touches.length === 2) {
+        isDragging = false;
+        initialPinchDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        initialPinchScale = scale;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2 && initialPinchDist > 0) {
+        e.preventDefault();
+        hasMoved = true;
+        const currentDist = Math.hypot(
+          e.touches[0].clientX - e.touches[1].clientX,
+          e.touches[0].clientY - e.touches[1].clientY
+        );
+        scale = Math.min(maxScale, Math.max(minScale, initialPinchScale * (currentDist / initialPinchDist)));
+        applyTransform(false);
+      } else if (e.touches.length === 1 && isDragging && scale > 1.05) {
+        e.preventDefault();
+        hasMoved = true;
+        posX = e.touches[0].clientX - dragStartX;
+        posY = e.touches[0].clientY - dragStartY;
+        applyTransform(false);
+      }
+    }, { passive: false });
+
+    viewport.addEventListener('touchend', (e) => {
+      if (e.touches.length < 2) {
+        initialPinchDist = 0;
+      }
+      if (e.touches.length === 0) {
+        isDragging = false;
+        applyTransform(false);
+      }
+    });
+
+    // Mouse Dragging on Desktop
+    viewport.addEventListener('mousedown', (e) => {
+      hasMoved = false;
+      if (scale > 1.05 && e.button === 0) {
+        isDragging = true;
+        dragStartX = e.clientX - posX;
+        dragStartY = e.clientY - posY;
+        viewport.style.cursor = 'grabbing';
+        img.style.cursor = 'grabbing';
+        e.preventDefault();
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging && scale > 1.05) {
+        hasMoved = true;
+        posX = e.clientX - dragStartX;
+        posY = e.clientY - dragStartY;
+        applyTransform(false);
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        if (scale > 1.05) {
+          viewport.style.cursor = 'grab';
+          img.style.cursor = 'grab';
+        }
+      }
+    });
+
+    // Mouse Wheel Zoom
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 1.25 : 0.8;
+      scale = Math.min(maxScale, Math.max(minScale, scale * delta));
+      if (scale <= 1.05) { posX = 0; posY = 0; scale = 1.0; }
+      applyTransform(true);
+    }, { passive: false });
+
+    // Keyboard Escape to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Floating Back To Top button visibility
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('backToTop');
+      if (btn) {
+        if (window.scrollY > 400) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+      }
+    });
+
+    // --- CHECKLIST LOCALSTORAGE PERSISTENCE & PROGRESS ---
+    const CHECKLIST_STORAGE_KEY = 'mega_moto_trip_checklist_state';
+
+    function initChecklist() {
+      const checkboxes = document.querySelectorAll('.check-items-list input[type="checkbox"]');
+      let savedState = {};
+      try {
+        savedState = JSON.parse(localStorage.getItem(CHECKLIST_STORAGE_KEY) || '{}');
+      } catch (e) {
+        savedState = {};
+      }
+
+      checkboxes.forEach(cb => {
+        if (savedState[cb.id]) {
+          cb.checked = true;
+          cb.closest('.check-label').classList.add('checked');
+        }
+
+        cb.addEventListener('change', () => {
+          if (cb.checked) {
+            cb.closest('.check-label').classList.add('checked');
+          } else {
+            cb.closest('.check-label').classList.remove('checked');
+          }
+          saveChecklistState();
+          updateChecklistProgress();
+        });
+      });
+
+      updateChecklistProgress();
+    }
+
+    function saveChecklistState() {
+      const checkboxes = document.querySelectorAll('.check-items-list input[type="checkbox"]');
+      const state = {};
+      checkboxes.forEach(cb => {
+        if (cb.checked) state[cb.id] = true;
+      });
+      localStorage.setItem(CHECKLIST_STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function updateChecklistProgress() {
+      const checkboxes = document.querySelectorAll('.check-items-list input[type="checkbox"]');
+      const total = checkboxes.length;
+      let checked = 0;
+      checkboxes.forEach(cb => { if (cb.checked) checked++; });
+
+      const countEl = document.getElementById('progressCount');
+      const barEl = document.getElementById('progressBar');
+      if (countEl) countEl.textContent = `${checked} / ${total}`;
+      if (barEl) {
+        const pct = total > 0 ? (checked / total) * 100 : 0;
+        barEl.style.width = `${pct}%`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initChecklist);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initChecklist();
+    }
+  </script>
+</body>
+</html>
